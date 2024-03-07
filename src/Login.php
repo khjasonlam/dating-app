@@ -34,7 +34,7 @@
               
               if (!empty($loginUser)) {
                 $_SESSION['userId'] = $loginUser['userId'];
-                header("Location: profile.php");
+                header("Location: Profile.php");
               } else {
                 $errorMessage = "ログインID又はパスワードが間違いました";
               }
@@ -71,7 +71,7 @@
           <button type="submit" class="btn btn-info btn-lg" name="loginSubmit">ログイン</button>
         </div>
         <div class="col-md-6 d-grid">
-          <a type="button" href='register.php' class="btn btn-dark btn-lg">新規登録</a>
+          <a type="button" href='Register.php' class="btn btn-dark btn-lg">新規登録</a>
         </div>
       </form>
     </div>
