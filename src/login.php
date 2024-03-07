@@ -17,12 +17,6 @@
       include_once("menubar.php");
       include_once("checkInput.php");
       
-      function testInputValue($data) {
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-      }
-      
       try {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
           if (isset($_POST["loginSubmit"])) {
