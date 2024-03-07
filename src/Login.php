@@ -14,8 +14,8 @@
   <body class="bg-info-subtle">
     <?php
       include_once("pdo.php");
-      include_once("menubar.php");
-      include_once("checkInput.php");
+      include_once("CommonTools.php");
+      include_once("CheckInput.php");
       
       try {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
