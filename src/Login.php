@@ -13,7 +13,7 @@
   </head>
   <body class="bg-info-subtle">
     <?php
-      include_once("pdo.php");
+      include_once("Pdo.php");
       include_once("CommonTools.php");
       include_once("CheckInput.php");
       
