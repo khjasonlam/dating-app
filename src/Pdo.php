@@ -6,9 +6,10 @@
   
   try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $dbUsername, $dbPassword);
+    // Set PDO to throw exceptions on error
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    if ($_SERVER['SCRIPT_NAME'] === "/dating-app/src/Pdo.php") {
+    if ($_SERVER['SCRIPT_NAME'] === "/Pdo.php") {
       echo "Connected successfully";
     }
   } catch(PDOException $e) {

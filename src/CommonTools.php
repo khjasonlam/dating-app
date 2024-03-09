@@ -2,9 +2,9 @@
   session_start();
   
   $menubar = [
-    "/dating-app/src/MatchedList.php" => "マッチング一覧", 
-    "/dating-app/src/Interactions.php" => "いいね", 
-    "/dating-app/src/Profile.php" => "プロフィール"
+    "/MatchedList.php" => "マッチング一覧", 
+    "/Interactions.php" => "いいね", 
+    "/Profile.php" => "プロフィール"
   ];
   
   function checkActive($url) {
@@ -26,8 +26,8 @@
       >
     </div>
     <?php 
-      if ($_SERVER["SCRIPT_NAME"] !== "/dating-app/src/Login.php" && 
-        $_SERVER["SCRIPT_NAME"] !== "/dating-app/src/Register.php") { 
+      if ($_SERVER["SCRIPT_NAME"] !== "/Login.php" && 
+        $_SERVER["SCRIPT_NAME"] !== "/Register.php") { 
     ?>
       <div class="col-8">
         <div class="btn-group container">
