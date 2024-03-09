@@ -173,7 +173,7 @@
         </div>
         <!-- back to login page -->
         <div class="col-md-6 d-grid">
-          <a type="button" href='login.php' class="btn btn-outline-dark btn-lg my-2">
+          <a type="button" href='Login.php' class="btn btn-outline-dark btn-lg my-2">
             ログイン画面に戻る
           </a>
         </div>
