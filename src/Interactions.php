@@ -96,7 +96,7 @@
                 <img 
                   <?php echo "src='data: $pictureType; base64, $pictureContents'"; ?>
                   class="card-img-top object-fit-scale border rounded" 
-                  alt="profilePicture" height="250px" width="200px"
+                  alt="profilePicture" height="300px" width="200px"
                 >
               </a>
               <div class="card-body">
