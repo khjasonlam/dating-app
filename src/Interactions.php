@@ -92,7 +92,7 @@
         ?>
           <div class="col">
             <div class="card h-100 mx-3 text-center">
-              <a href="profile.php?targetUserId=<?php echo $targetUserId; ?>">
+              <a href="Profile.php?targetUserId=<?php echo $targetUserId; ?>">
                 <img 
                   <?php echo "src='data: $pictureType; base64, $pictureContents'"; ?>
                   class="card-img-top object-fit-scale border rounded" 
