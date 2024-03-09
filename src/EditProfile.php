@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>DATING APP | EDIT PROFILE</title>
     <link rel="icon" href="../icon/calendar-heart-fill.svg">
-    <link rel="stylesheet" href="../style/css/bootstrap.css">
+    <link rel="stylesheet" href="../css/Style.css">
   </head>
   <body class="bg-info-subtle">
     <?php
