@@ -21,14 +21,14 @@
     ?>
     <div class="container p-4 bg-light">
       <div class="row">
-        <div class="col-md-5 text-center mb-3">
+        <div class="col-md-6 text-center mb-3">
           <img 
             <?php echo "src='data: $pictureType; base64, $pictureContents'"; ?> 
             alt="profile_picture" class="object-fit-scale border rounded" 
-            height="auto" width="auto" style="max-width: 250px;"
+            height="auto" width="auto" style="max-width: 300px;"
           >
         </div>
-        <div class="col-md-7 px-4">
+        <div class="col-md-6 px-4">
           <div class="row">
             <div class="col-9 col-md-9 h1 strong">
               <?php echo $username ?>
