@@ -66,7 +66,7 @@
             <div class="col-8">
               <div class="card-body">
                 <h3 class="card-title"><?php echo "$username ($age) " ?></h3>
-                <p class="card-text"><?php echo $description ?></p>
+                <p class="card-text text-truncate"><?php echo $description ?></p>
               </div>
             </div>
           </div>
