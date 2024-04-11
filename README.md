@@ -2,7 +2,6 @@
 
 <pre>
 .
-├── README.md
 ├── css
 │   └── Style.css
 ├── icon
