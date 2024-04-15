@@ -19,6 +19,8 @@
       include_once("CheckInput.php");
       include_once("SelectProfileItem.php");
       
+      define("MAX_SIZE", 1048576);
+      
       function profileTextField($itemValue, $itemTitle, $itemKey) {
         echo "<label for='$itemKey' class='form-label'>$itemTitle</label>";
         echo "<input type='text' class='form-control form-control-lg' 
@@ -30,11 +32,15 @@
           placeholder='$itemTitle"."を入力して下さい'>$itemValue</textarea>";
       }
       
-      try {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          if (isset($_POST["editProfileSubmit"])) {
-            if (isset($_POST["username"]) && isset($_POST["gender"]) && 
-            ($_POST["age"] !== "年齢を選択していください")) {
+      if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if (isset($_POST["editProfileSubmit"])) {
+          $inputValue = isset($_POST["username"]) && isset($_POST["gender"]) && 
+            ($_POST["age"] !== "年齢を選択していください");
+          
+          if ($inputValue) {
+            try {
+              $conn->beginTransaction();
+              
               $updateProfileSql = 
                 "UPDATE Users SET username = ?, age = ?, gender = ?,
                 height = ?, weight = ?, bloodType = ?, location = ?, interests = ?,
@@ -44,21 +50,56 @@
               
               $count = 1;
               foreach ($_POST as $postKey => $postValue) {
-                if ($postKey !== "editProfileSubmit") {
+                if ($postKey !== "editProfileSubmit" && $postKey !== "profilePicture") {
                   $postValue = testInputValue($postValue);
                   $stmt->bindValue($count, $postValue);
                   $count++;
                 }
               }
               $stmt->execute();
-              header("Location: Profile.php");
-            } else {
-              $errorMessage = "名前、年齢、性別が必須項目です";
+              
+              $lastInsertId = $conn->lastInsertId();
+              
+              $uploadPicture = is_uploaded_file($_FILES["profilePicture"]["tmp_name"]);
+              if ($uploadPicture) {
+                $pictureName = $_FILES["profilePicture"]["name"];
+                $pictureType = $_FILES["profilePicture"]["type"];
+                $pictureSize = $_FILES["profilePicture"]["size"];
+                $pictureTmpName = $_FILES["profilePicture"]["tmp_name"];
+                $pictureFile = file_get_contents($pictureTmpName);
+                $pictureContents = base64_encode($pictureFile);
+                
+                if ($pictureSize <= MAX_SIZE) {
+                  $updatePictureSql = 
+                    "UPDATE User_Pictures SET pictureName = ?, pictureType = ?, 
+                    pictureContents = ? WHERE userId = ?";
+                  $stmt = $conn->prepare($updateProfileSql);
+                  
+                  $stmt->bindValue(1, $pictureName);
+                  $stmt->bindValue(2, $pictureType);
+                  $stmt->bindValue(3, $pictureContents);
+                  $stmt->bindValue(4, $lastInsertId);
+                  $stmt->execute();
+                  
+                  $conn->commit();
+                  header("Location: Profile.php");
+                } else {
+                  $errorMessage = "画像サイズが1Mを超えました";
+                  $conn->rollback();
+                }
+              } else {
+                $conn->commit();
+                header("Location: Profile.php");
+              }
+            } catch (Exception $e) {
+              $errorMessage = "登録失敗";
+              echo $e->getMessage();
+              $conn->rollback();
             }
+          } else {
+            $errorMessage = "名前、年齢、性別が必須項目です";
           }
         }
-      } catch (Exception $e) {
-        echo $e->getMessage();
       }
     ?>
     <div class="container p-4 bg-light">
@@ -147,13 +188,13 @@
           <?php profileTextField($result["drinkingHabits"], "飲酒", "drinkingHabits"); ?>
         </div>
         <!-- profile picture -->
-        <!-- <div class="col-md-12">
-          <label for="profilePicture" class="form-label">Profile Picture</label>
+        <div class="col-md-12">
+          <label for="profilePicture" class="form-label">プロフィール写真</label>
           <input 
             type="file" class="form-control form-control-lg" 
-            id="profilePicture" name="profilePicture"
+            name="profilePicture" id="profilePicture"
           >
-        </div> -->
+        </div>
         <div class="col-12 text-center text-danger"><?php echo $errorMessage;?></div>
         <!-- submit -->
         <div class="col-md-6 d-grid">
