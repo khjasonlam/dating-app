@@ -85,7 +85,7 @@
                 } else {
                   $errorMessage = "このログインIDが登録済みです";
                 } 
-              } catch (Exception $exception) {
+              } catch (Exception $e) {
                 $errorMessage = "登録失敗";
                 echo $e->getMessage();
                 $conn->rollback();
