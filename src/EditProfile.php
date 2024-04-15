@@ -34,7 +34,7 @@
       
       if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (isset($_POST["editProfileSubmit"])) {
-          $inputValue = isset($_POST["username"]) && isset($_POST["gender"]) && 
+          $inputValue = !empty($_POST["username"]) && isset($_POST["gender"]) && 
             ($_POST["age"] !== "年齢を選択していください");
           
           if ($inputValue) {
