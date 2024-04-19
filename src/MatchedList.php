@@ -53,7 +53,7 @@
             $pictureType = $users["pictureType"];
       ?>
         <form method="POST" action="Message.php">
-          <input type="hidden" name="MessageUserId" value="<?php echo $targetUserId;?>">
+          <input type="hidden" name="messageUserId" value="<?php echo $targetUserId;?>">
           <div class="card mb-3 mx-3 w-auto" onclick="this.parentNode.submit()" style="cursor: pointer;">
             <div class="row g-0">
               <div class="col-auto">
