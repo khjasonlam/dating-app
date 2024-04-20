@@ -3,8 +3,8 @@ session_start();
 
 if (isset($_GET["targetUserId"])) {
   $displayUserId = $_GET["targetUserId"];
-} else if (isset($_POST["messageUserId"])) {
-  $displayUserId = $_POST["messageUserId"];
+} else if (isset($_GET["messageUserId"])) {
+  $displayUserId = $_GET["messageUserId"];
 } else {
   $displayUserId = $_SESSION["userId"];
 }
@@ -27,7 +27,7 @@ try {
   $result = $stmt->fetch(PDO::FETCH_ASSOC);
   
 } catch (PDOException $e) {
-  var_dump($e->getMessage());
+  echo $e->getMessage();
 }
 
 $username = checkValue($result['username']);

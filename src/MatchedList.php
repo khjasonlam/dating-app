@@ -42,7 +42,7 @@
     <div class="container p-4 bg-light">
       <?php 
         if (empty($result)) {
-          echo "マッチングした相手がいません";
+          echo "<div class='col-12 text-danger'>マッチングした相手がいません</div>";
         } else {
           foreach ($result as $users) { 
             $targetUserId = $users["userId"];

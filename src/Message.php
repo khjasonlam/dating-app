@@ -19,6 +19,8 @@
       include_once("CheckInput.php");
       include_once("SelectProfileItem.php");
       
+      $error = new ErrorMessage;
+      
       $loginUserId = $_SESSION["userId"];      
       function displayMessage ($class, $users) {
         $messageContent = testInputValue($users["messageContent"]);
@@ -63,13 +65,13 @@
             $row = $stmt->rowCount();
             
           } catch (PDOException $e) {
-            $errorMessage = "メッセージ取得失敗：" . $e->getMessage();
+            $error->setErrorMessage("メッセージ取得失敗：" . $e->getMessage());
           }
         }
       }
     ?>
     <div class="container p-4 bg-light">
-    
+    <div class="text-center text-danger"><?php $error->displayErrorMessage();?></div>
     <div class="card mb-3" style="height: 70vh;">
       <div class="card-header">
         <div class="row">

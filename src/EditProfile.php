@@ -19,7 +19,7 @@
       include_once("CheckInput.php");
       include_once("SelectProfileItem.php");
       
-      define("MAX_SIZE", 1048576);
+      $error = new ErrorMessage;
       
       function profileTextField($itemValue, $itemTitle, $itemKey) {
         echo "<label for='$itemKey' class='form-label'>$itemTitle</label>";
@@ -84,20 +84,19 @@
                   $conn->commit();
                   header("Location: Profile.php");
                 } else {
-                  $errorMessage = "画像サイズが1Mを超えました";
+                  $error->setErrorMessage("画像サイズが1Mを超えました");
                   $conn->rollback();
                 }
               } else {
                 $conn->commit();
                 header("Location: Profile.php");
               }
-            } catch (Exception $e) {
-              $errorMessage = "登録失敗";
-              echo $e->getMessage();
+            } catch (PDOException $e) {
+              $error->setErrorMessage("DB登録失敗" . $e->getMessage());
               $conn->rollback();
             }
           } else {
-            $errorMessage = "名前、年齢、性別が必須項目です";
+            $error->setErrorMessage("名前、年齢、性別が必須項目です");
           }
         }
       }
@@ -195,7 +194,7 @@
             name="profilePicture" id="profilePicture"
           >
         </div>
-        <div class="col-12 text-center text-danger"><?php echo $errorMessage;?></div>
+        <div class="col-12 text-center text-danger"><?php $error->displayErrorMessage();?></div>
         <!-- submit -->
         <div class="col-md-6 d-grid">
           <input 

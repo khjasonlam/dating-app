@@ -17,13 +17,13 @@
       include_once("CommonTools.php");
       include_once("CheckInput.php");
       
-      define("MAX_SIZE", 1048576);
+      $error = new ErrorMessage;
       
       if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (isset($_POST["registerSubmit"])) {
           $inputValue = isset($_POST["loginId"]) && !empty($_POST["password"]) && 
-            isset($_POST["username"]) && isset($_POST["age"]) && isset($_POST["gender"]) &&
-            is_uploaded_file($_FILES["profilePicture"]["tmp_name"]);
+            isset($_POST["username"]) && ($_POST["age"] !== "年齢を選択していください") && 
+            isset($_POST["gender"]) && is_uploaded_file($_FILES["profilePicture"]["tmp_name"]);
           
           if ($inputValue) {
             $loginId = testInputValue($_POST["loginId"]);
@@ -64,12 +64,12 @@
                   $stmt->execute();
                   
                   $lastInsertId = $conn->lastInsertId();
-                                    
+                  
                   $uploadPictureSql = 
                     "INSERT INTO User_Pictures (userId, pictureName, pictureType, pictureContents) 
                     VALUES (?, ?, ?, ?)";
                   $stmt = $conn->prepare($uploadPictureSql);
-                                    
+                  
                   $stmt->bindValue(1, $lastInsertId);
                   $stmt->bindValue(2, $pictureName);
                   $stmt->bindValue(3, $pictureType);
@@ -79,18 +79,17 @@
                   $conn->commit();
                   header("Location: Login.php");
                 } else {
-                  $errorMessage = "このログインIDが登録済みです";
+                  $error->setErrorMessage("このログインIDが登録済みです");
                 } 
-              } catch (Exception $e) {
-                $errorMessage = "登録失敗";
-                echo $e->getMessage();
+              } catch (PDOException $e) {
+                $error->setErrorMessage("DB登録失敗" . $e->getMessage());
                 $conn->rollback();
               }
             } else {
-              $errorMessage = "画像サイズが1Mを超えました";
+              $error->setErrorMessage("画像サイズが1Mを超えました");
             }
           } else {
-            $errorMessage = "すべてが必須項目です";
+            $error->setErrorMessage("すべてが必須項目");
           }
         }
       }
@@ -158,7 +157,7 @@
             </div>
           </div>
         </div>
-        <div class="col-12 text-center text-danger"><?php echo $errorMessage;?></div>
+        <div class="col-12 text-center text-danger"><?php $error->displayErrorMessage();?></div>
         <!-- submit -->
         <div class="col-md-6 d-grid">
           <input 

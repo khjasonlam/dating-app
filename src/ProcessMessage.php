@@ -3,7 +3,7 @@ session_start();
 include_once("Pdo.php");
 include_once("CheckInput.php");
 
-// $error = new errorMessage();
+$error = new errorMessage();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   if (isset($_POST["sendMessage"])) {
@@ -22,12 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         
       } catch (PDOException $e) {
         $errorMessage = "送信失敗: " . $e->getMessage();
-        echo $e->getMessage();
-        // $error->setErrorMessage($errorMessage);
+        echo $errorMessage;
+        $error->setErrorMessage($errorMessage);
       }
     } else {
-      $errorMessage = "入力してください";
-      // $error->setErrorMessage($errorMessage);
+      $errorMessage = "メッセージを入力してください";
+      echo $errorMessage;
+      $error->setErrorMessage($errorMessage);
     }
     header("Location: Message.php?messageUserId=".$_POST["messageUserId"]);
   }

@@ -18,6 +18,8 @@
       include_once("LoginStatus.php");
       include_once("CheckInput.php");
       
+      $error = new ErrorMessage;
+      
       $loginUserId = $_SESSION["userId"];
       
       if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -47,12 +49,10 @@
               $result = $stmt->fetch(PDO::FETCH_ASSOC);
               if (!empty($result)) {
                 echo "Yeah, you are matched with" . $result["userId"];
-              } else {
-                // header("Location: like.php");
               }
             } 
           } catch (PDOException $e) {
-            echo $e->getMessage();
+            $error->setErrorMessage("DB error" . $e->getMessage());
           }
         }
       }
@@ -73,15 +73,20 @@
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $row = $stmt->rowCount();
       } catch (PDOException $e) {
-        var_dump($e);
+        $error->setErrorMessage("DB error: " . $e->getMessage());
       }
     ?>
     <div class="container p-4 bg-light">
+      <div class="col-12 text-danger">
+        <?php 
+          $error->displayErrorMessage();
+          if ($row === 0) {
+            echo "<h1 class='text-dark text-center'>いいねする相手いません<h1>";
+          }
+        ?>
+      </div>
       <div class="row row-cols-1 row-cols-md-3 g-4">
         <?php 
-          if (empty($result)) {
-            echo "いいねする相手がいません";
-          }
           foreach ($result as $key => $users) {
             $targetUserId = $users['userId'];
             $username = $users['username'];
