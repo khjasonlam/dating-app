@@ -17,6 +17,7 @@
       include_once("CommonTools.php");
       include_once("LoginStatus.php");
       include_once("CheckInput.php");
+      include_once("SelectProfileItem.php");
       
       $loginUserId = $_SESSION["userId"];
       $messageUserId = $_POST["messageUserId"];
@@ -64,6 +65,7 @@
             
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $row = $stmt->rowCount();
+            
           } catch (PDOException $e) {
             var_dump($e->getMessage());
           }
@@ -71,39 +73,68 @@
       }
     ?>
     <div class="container p-4 bg-light">
-      
-      <?php 
-        foreach ($result as $users) { 
-          $senderId = $users["senderId"];
-          $senderName = $users["senderName"];
-          $messageContent = $users["messageContent"];
-          $description = $users["description"];
-          $pictureContents = $users["pictureContents"];
-          $pictureType = $users["pictureType"];
-          
-          if ($senderId === $loginUserId) {
-            echo "<div class='d-flex flex-row-reverse mb-3'>";
-            echo "<img src='data: $pictureType; base64, $pictureContents' class='rounded-circle border border-info' height='75px' width='75px'>";
-            echo "<div class='rounded text-end text-break text-bg-success m-3 px-4 py-2 h5'>$messageContent</div>";
-            echo "</div>";
-          } else {
-            echo "<div class='d-flex flex-row mb-3'>";
-            echo "<img src='data: $pictureType; base64, $pictureContents' class='rounded-circle border border-info' height='75px' width='75px'>";
-            echo "<div class='rounded text-start text-break text-bg-success m-3 px-4 py-2 h5'>$messageContent</div>";
-            echo "</div>";
+    
+    <div class="card mb-3" style="height: 70vh;">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-2 h5 py-1 m-0">
+            <a class="link-dark link-offset-2 link-offset-2-hover link-underline 
+              link-underline-opacity-0 link-underline-opacity-75-hover" 
+              href="/dating-app/src/MatchedList.php">
+              ＜戻る
+            </a>
+          </div>
+          <div class="col-8 text-center h4 m-0">
+            <a class="link-dark link-underline link-underline-opacity-0"
+              href="Profile.php?targetUserId=<?php echo $messageUserId; ?>">
+              <?php echo $username; ?>
+            </a>    
+          </div>
+        </div>
+      </div>
+      <div class="card-body overflow-auto">
+        <?php 
+          foreach ($result as $users) { 
+            $senderId = $users["senderId"];
+            $senderName = $users["senderName"];
+            $messageContent = $users["messageContent"];
+            $description = $users["description"];
+            $pictureContents = $users["pictureContents"];
+            $pictureType = $users["pictureType"];
+            
+            if ($senderId === $loginUserId) {
+              echo 
+                "<div class='d-flex flex-row-reverse my-2'>
+                  <img src='data: $pictureType; base64, $pictureContents' 
+                    class='rounded-circle border my-1' height='60px' width='60px'>
+                  <div class='rounded text-break text-bg-primary m-3 px-4 py-2 h5' 
+                    style='max-width: 350px'>
+                    $messageContent
+                  </div>
+                </div>";
+            } else {
+              echo 
+                "<div class='d-flex flex-row my-2'>
+                  <img src='data: $pictureType; base64, $pictureContents' 
+                    class='rounded-circle border my-1' height='60px' width='60px'>
+                  <div class='rounded text-break text-bg-primary m-3 px-4 py-2 h5' 
+                    style='max-width: 350px'>
+                    $messageContent
+                  </div>
+                </div>";
+            }
           }
-        }
-      ?>
-      <form class="container fixed-bottom bg-light p-4" method="POST" action="Message.php">
+        ?>
+      <form class="container fixed-bottom bg-light p-4 rounded" method="POST" action="Message.php">
         <input type="hidden" name="loginUserId" value="<?php echo $loginUserId; ?>">
         <input type="hidden" name="messageUserId" value="<?php echo $messageUserId; ?>">
         <div class="row mx-1">
           <input 
-            type="text" class="form-control col" 
+            type="text" class="form-control form-control-lg col" 
             name="message" placeholder="メッセージを入力してくだい"
           >
           <div class="col-auto">
-            <button type="submit" name="sendMessage" value="sent" class="btn btn-primary">送る</button>
+            <button type="submit" name="sendMessage" value="sent" class="btn btn-primary btn-lg">送る</button>
           </div>
         </div>
       </form>
