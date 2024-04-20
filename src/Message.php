@@ -22,6 +22,25 @@
       $loginUserId = $_SESSION["userId"];
       $messageUserId = $_POST["messageUserId"];
       
+      function displayMessage ($class, $users) {
+        $messageContent = testInputValue($users["messageContent"]);
+        $pictureContents = testInputValue($users["pictureContents"]);
+        $pictureType = testInputValue($users["pictureType"]);
+        echo 
+          "<div class='d-flex $class my-2'>
+            <img 
+              src='data: $pictureType; base64, $pictureContents' 
+              class='rounded-circle border my-1' height='60px' width='60px'
+            >
+            <div 
+              class='rounded text-break text-bg-primary m-3 px-4 py-2 h5' 
+              style='max-width: 350px'
+            >
+              $messageContent
+            </div>
+          </div>";
+      }
+      
       if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (isset($_POST["sendMessage"])) {
           $inputValue = !empty($_POST["message"]);
@@ -29,7 +48,8 @@
           if ($inputValue) {
             try {
               $insertMessageSql = 
-                "INSERT INTO Messages (senderId, receiverId, messageContent) VALUES (?, ?, ?)";
+                "INSERT INTO Messages (senderId, receiverId, messageContent) 
+                VALUES (?, ?, ?)";
               $stmt = $conn->prepare($insertMessageSql);
               
               $stmt->bindValue(1, $loginUserId);
@@ -48,7 +68,7 @@
         if (isset($messageUserId)) {
           try {
             $SelectMessageSql = 
-              "SELECT m.senderId, u.username as senderName, m.messageContent, 
+              "SELECT m.senderId, m.messageContent, 
               up.pictureContents, up.pictureType FROM Messages m 
               LEFT JOIN Users u ON m.senderId = u.userId 
               LEFT JOIN User_Pictures up ON m.senderId = up.userId 
@@ -78,15 +98,20 @@
       <div class="card-header">
         <div class="row">
           <div class="col-2 h5 py-1 m-0">
-            <a class="link-dark link-offset-2 link-offset-2-hover link-underline 
-              link-underline-opacity-0 link-underline-opacity-75-hover" 
-              href="/dating-app/src/MatchedList.php">
+            <a 
+              class=
+                "link-dark link-offset-2 link-offset-2-hover link-underline 
+                link-underline-opacity-0 link-underline-opacity-75-hover" 
+              href="/dating-app/src/MatchedList.php"
+            >
               ＜戻る
             </a>
           </div>
           <div class="col-8 text-center h4 m-0">
-            <a class="link-dark link-underline link-underline-opacity-0"
-              href="Profile.php?targetUserId=<?php echo $messageUserId; ?>">
+            <a 
+              class="link-dark link-underline link-underline-opacity-0"
+              href="Profile.php?targetUserId=<?php echo $messageUserId; ?>"
+            >
               <?php echo $username; ?>
             </a>    
           </div>
@@ -95,37 +120,17 @@
       <div class="card-body overflow-auto">
         <?php 
           foreach ($result as $users) { 
-            $senderId = $users["senderId"];
-            $senderName = $users["senderName"];
-            $messageContent = $users["messageContent"];
-            $description = $users["description"];
-            $pictureContents = $users["pictureContents"];
-            $pictureType = $users["pictureType"];
-            
-            if ($senderId === $loginUserId) {
-              echo 
-                "<div class='d-flex flex-row-reverse my-2'>
-                  <img src='data: $pictureType; base64, $pictureContents' 
-                    class='rounded-circle border my-1' height='60px' width='60px'>
-                  <div class='rounded text-break text-bg-primary m-3 px-4 py-2 h5' 
-                    style='max-width: 350px'>
-                    $messageContent
-                  </div>
-                </div>";
+            if ($users["senderId"] === $loginUserId) {
+              displayMessage("flex-row-reverse", $users);
             } else {
-              echo 
-                "<div class='d-flex flex-row my-2'>
-                  <img src='data: $pictureType; base64, $pictureContents' 
-                    class='rounded-circle border my-1' height='60px' width='60px'>
-                  <div class='rounded text-break text-bg-primary m-3 px-4 py-2 h5' 
-                    style='max-width: 350px'>
-                    $messageContent
-                  </div>
-                </div>";
+              displayMessage("flex-row", $users);
             }
           }
         ?>
-      <form class="container fixed-bottom bg-light p-4 rounded" method="POST" action="Message.php">
+      <form 
+        class="container fixed-bottom bg-light p-4 rounded" 
+        method="POST" action="Message.php"
+      >
         <input type="hidden" name="loginUserId" value="<?php echo $loginUserId; ?>">
         <input type="hidden" name="messageUserId" value="<?php echo $messageUserId; ?>">
         <div class="row mx-1">
@@ -134,7 +139,12 @@
             name="message" placeholder="メッセージを入力してくだい"
           >
           <div class="col-auto">
-            <button type="submit" name="sendMessage" value="sent" class="btn btn-primary btn-lg">送る</button>
+            <button 
+              type="submit" name="sendMessage" value="sent" 
+              class="btn btn-primary btn-lg"
+            >
+              送る
+            </button>
           </div>
         </div>
       </form>
