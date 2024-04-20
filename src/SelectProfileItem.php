@@ -3,6 +3,8 @@
   
   if (isset($_GET["targetUserId"])) {
     $displayUserId = $_GET["targetUserId"];
+  } else if (isset($_POST["messageUserId"])) {
+    $displayUserId = $_POST["messageUserId"];
   } else {
     $displayUserId = $_SESSION["userId"];
   }

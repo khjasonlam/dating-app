@@ -52,25 +52,32 @@
             $pictureContents = $users["pictureContents"];
             $pictureType = $users["pictureType"];
       ?>
-        <div class="card mb-3 mx-3 w-auto">
-          <div class="row g-0">
-            <div class="col-auto">
-              <a href="Profile.php?targetUserId=<?php echo $targetUserId; ?>">
-                <img 
-                  <?php echo "src='data: $pictureType; base64, $pictureContents'"; ?> 
-                  class="me-3 object-fit-scale border rounded"
-                  height="150px" width="150px"
-                >
-              </a>
-            </div>
-            <div class="col-8">
-              <div class="card-body">
-                <h3 class="card-title"><?php echo "$username ($age) " ?></h3>
-                <p class="card-text text-truncate"><?php echo $description ?></p>
+        <form method="GET" action="Message.php">
+          <input type="hidden" name="messageUserId" value="<?php echo $targetUserId;?>">
+          <div 
+            class="card mb-3 mx-3 w-auto" 
+            onclick="this.parentNode.submit()" 
+            style="cursor: pointer;"
+          >
+            <div class="row g-0">
+              <div class="col-auto">
+                <a href="Profile.php?targetUserId=<?php echo $targetUserId; ?>">
+                  <img 
+                    <?php echo "src='data: $pictureType; base64, $pictureContents'"; ?> 
+                    class="me-3 object-fit-scale border rounded"
+                    height="150px" width="150px"
+                  >
+                </a>
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h3 class="card-title"><?php echo "$username ($age) " ?></h3>
+                  <p class="card-text text-truncate"><?php echo $description ?></p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       <?php 
           }
         } 
