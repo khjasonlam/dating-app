@@ -2,9 +2,7 @@
 session_start();
 
 function testInputValue($data) {
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
+  return htmlspecialchars($data, ENT_QUOTES, "UTF-8");
 }
 
 function checkValue($data) {
