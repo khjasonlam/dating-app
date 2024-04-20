@@ -11,40 +11,40 @@
     <link rel="icon" href="../icon/calendar-heart-fill.svg">
     <link rel="stylesheet" href="../css/Style.css">
   </head>
-  <body class="bg-info-subtle">
+  <body>
     <?php
       include_once("Pdo.php");
       include_once("CommonTools.php");
       include_once("CheckInput.php");
       
-      try {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          if (isset($_POST["loginSubmit"])) {
-            if(!empty($_POST['loginId']) && !empty($_POST['password'])) {
-              $loginId = testInputValue($_POST["loginId"]);
-              $password = testInputValue($_POST["password"]);
-              
-              $loginSql = "SELECT userId FROM Users WHERE loginId = ? AND password = ?";
-              $stmt = $conn->prepare($loginSql);
-              
-              $stmt->bindValue(1, $loginId);
-              $stmt->bindValue(2, $password);
-              $stmt->execute();
-              $loginUser = $stmt->fetch(PDO::FETCH_ASSOC);
-              
-              if (!empty($loginUser)) {
-                $_SESSION['userId'] = $loginUser['userId'];
-                header("Location: Profile.php");
-              } else {
-                $errorMessage = "ログインID又はパスワードが間違いました";
-              }
+      $error = new errorMessage();
+      
+      if (isset($_POST["loginSubmit"])) {
+        if(!empty($_POST['loginId']) && !empty($_POST['password'])) {
+          $loginId = testInputValue($_POST["loginId"]);
+          $password = testInputValue($_POST["password"]);
+          
+          try {
+            $loginSql = "SELECT userId FROM Users WHERE loginId = ? AND password = ?";
+            $stmt = $conn->prepare($loginSql);
+            
+            $stmt->bindValue(1, $loginId);
+            $stmt->bindValue(2, $password);
+            $stmt->execute();
+            $loginUser = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if (!empty($loginUser)) {
+              $_SESSION['userId'] = $loginUser['userId'];
+              header("Location: Profile.php");
             } else {
-              $errorMessage = "必須項目です";
+              $error->setErrorMessage("ログインID又はパスワードが間違いました");
             }
+          } catch (PDOException $e) {
+            $error->setErrorMessage("DB Error: " . $e->getMessage());
           }
+        } else {
+          $error->setErrorMessage("必須項目です");
         }
-      } catch (PDOException $e) {
-        echo $e->getMessage();
       }
     ?>
     <div class="container p-5 bg-light">
@@ -66,7 +66,7 @@
             name="password" placeholder="パスワードを入力してください"
           >
         </div>
-        <div class="col-12 text-center text-danger"><?php echo $errorMessage;?></div>
+        <div class="col-12 text-center text-danger"><?php $error->displayErrorMessage();?></div>
         <div class="col-md-6 d-grid">
           <button type="submit" class="btn btn-info btn-lg" name="loginSubmit">ログイン</button>
         </div>

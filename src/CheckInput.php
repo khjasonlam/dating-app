@@ -1,16 +1,27 @@
 <?php 
-  session_start();
+session_start();
+
+function testInputValue($data) {
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+
+function checkValue($data) {
+  if (empty($data)) {
+    $data = "入力なし";
+  }
+  return $data;
+}
+
+class ErrorMessage {
+  private $message;
   
-  function testInputValue($data) {
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
+  public function setErrorMessage ($message) {
+    $this->message = $message;
   }
   
-  function checkValue($data) {
-    if (empty($data)) {
-      $data = "入力なし";
-    }
-    return $data;
+  public function displayErrorMessage () {
+    echo $this->message;
   }
-?>
+}
