@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+include_once("Pdo.php");
+
 if (isset($_GET["targetUserId"])) {
   $displayUserId = $_GET["targetUserId"];
 } else if (isset($_GET["messageUserId"])) {

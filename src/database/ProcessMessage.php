@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once("Pdo.php");
-include_once("CheckInput.php");
+include_once("../components/CheckInput.php");
 
 $error = new errorMessage();
 
@@ -30,6 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       echo $errorMessage;
       $error->setErrorMessage($errorMessage);
     }
-    header("Location: Message.php?messageUserId=".$_POST["messageUserId"]);
+    header("Location: ../pages/Message.php?messageUserId=".$_POST["messageUserId"]);
   }
 }

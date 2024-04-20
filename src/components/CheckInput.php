@@ -1,6 +1,8 @@
 <?php 
 session_start();
 
+define("MAX_SIZE", 1048576);
+
 function testInputValue($data) {
   return htmlspecialchars($data, ENT_QUOTES, "UTF-8");
 }

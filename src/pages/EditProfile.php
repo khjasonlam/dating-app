@@ -8,16 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>DATING APP | EDIT PROFILE</title>
-    <link rel="icon" href="../icon/calendar-heart-fill.svg">
-    <link rel="stylesheet" href="../css/Style.css">
+    <link rel="icon" href="../assets/icon/calendar-heart-fill.svg">
+    <link rel="stylesheet" href="../assets/css/Style.css">
   </head>
   <body>
-    <?php
-      include_once("Pdo.php");
-      include_once("CommonTools.php");
-      include_once("LoginStatus.php");
-      include_once("CheckInput.php");
-      include_once("SelectProfileItem.php");
+<?php
+      include_once("../components/CommonTools.php");
+      include_once("../components/CheckInput.php");
+      include_once("../database/Pdo.php");
+      include_once("../database/SelectProfileItem.php");
       
       $error = new ErrorMessage;
       
