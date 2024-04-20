@@ -19,9 +19,7 @@
       include_once("CheckInput.php");
       include_once("SelectProfileItem.php");
       
-      $loginUserId = $_SESSION["userId"];
-      $messageUserId = $_POST["messageUserId"];
-      
+      $loginUserId = $_SESSION["userId"];      
       function displayMessage ($class, $users) {
         $messageContent = testInputValue($users["messageContent"]);
         $pictureContents = testInputValue($users["pictureContents"]);
@@ -41,30 +39,8 @@
           </div>";
       }
       
-      if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        if (isset($_POST["sendMessage"])) {
-          $inputValue = !empty($_POST["message"]);
-          
-          if ($inputValue) {
-            try {
-              $insertMessageSql = 
-                "INSERT INTO Messages (senderId, receiverId, messageContent) 
-                VALUES (?, ?, ?)";
-              $stmt = $conn->prepare($insertMessageSql);
-              
-              $stmt->bindValue(1, $loginUserId);
-              $stmt->bindValue(2, $messageUserId);
-              $stmt->bindValue(3, $_POST["message"]);
-              $stmt->execute();
-              
-            } catch (PDOException $e) {
-              $errorMessage = "送信失敗";
-              echo $e->getMessage();
-            }
-          } else {
-            $errorMessage = "入力してください";
-          }
-        }
+      if ($_SERVER["REQUEST_METHOD"] === "GET") {
+        $messageUserId = $_GET["messageUserId"];
         if (isset($messageUserId)) {
           try {
             $SelectMessageSql = 
@@ -87,7 +63,7 @@
             $row = $stmt->rowCount();
             
           } catch (PDOException $e) {
-            var_dump($e->getMessage());
+            $errorMessage = "メッセージ取得失敗：" . $e->getMessage();
           }
         }
       }
@@ -129,7 +105,7 @@
         ?>
       <form 
         class="container fixed-bottom bg-light p-4 rounded" 
-        method="POST" action="Message.php"
+        method="POST" action="ProcessMessage.php"
       >
         <input type="hidden" name="loginUserId" value="<?php echo $loginUserId; ?>">
         <input type="hidden" name="messageUserId" value="<?php echo $messageUserId; ?>">
