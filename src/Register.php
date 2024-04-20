@@ -11,7 +11,7 @@
     <link rel="icon" href="../icon/calendar-heart-fill.svg">
     <link rel="stylesheet" href="../css/Style.css">
   </head>
-  <body class="bg-info-subtle">
+  <body>
     <?php
       include_once("Pdo.php");
       include_once("CommonTools.php");
@@ -64,16 +64,12 @@
                   $stmt->execute();
                   
                   $lastInsertId = $conn->lastInsertId();
-                  
-                  // echo $lastInsertId . "<br>";
-                  
+                                    
                   $uploadPictureSql = 
                     "INSERT INTO User_Pictures (userId, pictureName, pictureType, pictureContents) 
                     VALUES (?, ?, ?, ?)";
                   $stmt = $conn->prepare($uploadPictureSql);
-                  
-                  // echo $uploadPictureSql . "<br>";
-                  
+                                    
                   $stmt->bindValue(1, $lastInsertId);
                   $stmt->bindValue(2, $pictureName);
                   $stmt->bindValue(3, $pictureType);

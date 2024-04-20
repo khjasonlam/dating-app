@@ -11,7 +11,7 @@
     <link rel="icon" href="../icon/calendar-heart-fill.svg">
     <link rel="stylesheet" href="../css/Style.css">
   </head>
-  <body class="bg-info-subtle">
+  <body>
     <?php
       include_once("Pdo.php");
       include_once("CommonTools.php");
