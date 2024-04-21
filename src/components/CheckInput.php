@@ -11,7 +11,18 @@ function checkValue($data) {
   if (empty($data)) {
     $data = "入力なし";
   }
-  return $data;
+  return htmlspecialchars($data, ENT_QUOTES, "UTF-8");
+}
+
+function setErrorMessage($message) {
+  $_SESSION["error_message"] = $message;
+}
+
+function displayErrorMessage() {
+  if (isset($_SESSION["error_message"])) {
+    echo $_SESSION["error_message"];
+    unset($_SESSION["error_message"]);
+  }
 }
 
 class ErrorMessage {
