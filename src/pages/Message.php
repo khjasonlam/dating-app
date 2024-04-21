@@ -1,6 +1,3 @@
-<?php 
-  session_start();
-?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -15,10 +12,9 @@
     <?php
       include_once("../components/CommonTools.php");
       include_once("../components/CheckInput.php");
-      include_once("../database/Pdo.php");
       include_once("../database/SelectProfileItem.php");
-
-      $loginUserId = $_SESSION["userId"];      
+      include_once("../database/SelectMessage.php");
+      
       function displayMessage ($class, $users) {
         $messageContent = testInputValue($users["messageContent"]);
         $pictureContents = testInputValue($users["pictureContents"]);
@@ -36,35 +32,6 @@
               $messageContent
             </div>
           </div>";
-      }
-      
-      if ($_SERVER["REQUEST_METHOD"] === "GET") {
-        $messageUserId = $_GET["messageUserId"];
-        if (isset($messageUserId)) {
-          try {
-            $SelectMessageSql = 
-              "SELECT m.senderId, m.messageContent, 
-              up.pictureContents, up.pictureType FROM Messages m 
-              LEFT JOIN Users u ON m.senderId = u.userId 
-              LEFT JOIN User_Pictures up ON m.senderId = up.userId 
-              WHERE m.senderId = ? AND m.receiverId = ? 
-              OR m.senderId = ? AND m.receiverId = ?
-              ORDER BY m.timestamp ASC;";
-            $stmt = $conn->prepare($SelectMessageSql);
-            
-            $stmt->bindValue(1, $loginUserId);
-            $stmt->bindValue(2, $messageUserId);
-            $stmt->bindValue(3, $messageUserId);
-            $stmt->bindValue(4, $loginUserId);
-            $stmt->execute();
-            
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $row = $stmt->rowCount();
-            
-          } catch (PDOException $e) {
-            setErrorMessage("メッセージ取得失敗：" . $e->getMessage());
-          }
-        }
       }
     ?>
     <div class="container p-4 bg-light">
@@ -92,11 +59,12 @@
         </div>
       </div>
       <div class="card-body overflow-auto">
+      <div class="text-center text-danger"><?php displayErrorMessage();?></div>
         <?php 
           foreach ($result as $users) { 
             if ($users["senderId"] === $loginUserId) {
               displayMessage("flex-row-reverse", $users);
-            } else {
+            } else if ($users["senderId"] == $messageUserId) {
               displayMessage("flex-row", $users);
             }
           }
@@ -105,7 +73,6 @@
         class="container fixed-bottom bg-light p-4 rounded" 
         method="POST" action="../database/ProcessMessage.php"
       >
-        <div class="text-center text-danger"><?php displayErrorMessage();?></div>
         <input type="hidden" name="loginUserId" value="<?php echo $loginUserId; ?>">
         <input type="hidden" name="messageUserId" value="<?php echo $messageUserId; ?>">
         <div class="row mx-1">
