@@ -23,8 +23,10 @@ function checkActive($directory) {
       >
     </div>
     <?php 
-      if ($_SERVER["SCRIPT_NAME"] !== "/dating-app/src/pages/Login.php" && 
-        $_SERVER["SCRIPT_NAME"] !== "/dating-app/src/pages/Register.php") { 
+      $showMenubar = 
+        $_SERVER["SCRIPT_NAME"] !== "/dating-app/src/pages/Login.php" && 
+        $_SERVER["SCRIPT_NAME"] !== "/dating-app/src/pages/Register.php";
+      if ($showMenubar) { 
     ?>
       <div class="col-8">
         <div class="btn-group container">
