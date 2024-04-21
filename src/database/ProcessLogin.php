@@ -22,12 +22,14 @@ if (isset($_POST["loginSubmit"])) {
         header("Location: ../pages/Profile.php");
       } else {
         setErrorMessage("ログインID又はパスワードが間違いました");
+        header("Location: ../pages/Login.php");
       }
     } catch (PDOException $e) {
       setErrorMessage("DB Error: " . $e->getMessage());
+      header("Location: ../pages/Login.php");
     }
   } else {
     setErrorMessage("必須項目です");
+    header("Location: ../pages/Login.php");
   }
-  header("Location: ../pages/Login.php");
 }

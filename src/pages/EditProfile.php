@@ -1,6 +1,3 @@
-<?php 
-  session_start();
-?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -12,13 +9,10 @@
     <link rel="stylesheet" href="../assets/css/Style.css">
   </head>
   <body>
-<?php
+    <?php
       include_once("../components/CommonTools.php");
       include_once("../components/CheckInput.php");
-      include_once("../database/Pdo.php");
       include_once("../database/SelectProfileItem.php");
-      
-      $error = new ErrorMessage;
       
       function profileTextField($itemValue, $itemTitle, $itemKey) {
         echo "<label for='$itemKey' class='form-label'>$itemTitle</label>";
@@ -30,81 +24,12 @@
         echo "<textarea class='form-control form-control-lg' name='$itemKey' 
           placeholder='$itemTitle"."を入力して下さい'>$itemValue</textarea>";
       }
-      
-      if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        if (isset($_POST["editProfileSubmit"])) {
-          $inputValue = !empty($_POST["username"]) && isset($_POST["gender"]) && 
-            ($_POST["age"] !== "年齢を選択していください");
-          
-          if ($inputValue) {
-            try {
-              $conn->beginTransaction();
-              
-              $updateProfileSql = 
-                "UPDATE Users SET username = ?, age = ?, gender = ?,
-                height = ?, weight = ?, bloodType = ?, location = ?, interests = ?,
-                description = ?, education = ?, occupation = ?, 
-                smokingHabits = ?, drinkingHabits = ? WHERE userId = ?";
-              $stmt = $conn->prepare($updateProfileSql);
-              
-              $count = 1;
-              foreach ($_POST as $postKey => $postValue) {
-                if ($postKey !== "editProfileSubmit" && $postKey !== "profilePicture") {
-                  $postValue = testInputValue($postValue);
-                  $stmt->bindValue($count, $postValue);
-                  $count++;
-                }
-              }
-              $stmt->execute();
-              
-              $lastInsertId = $conn->lastInsertId();
-              
-              $uploadPicture = is_uploaded_file($_FILES["profilePicture"]["tmp_name"]);
-              if ($uploadPicture) {
-                $pictureName = $_FILES["profilePicture"]["name"];
-                $pictureType = $_FILES["profilePicture"]["type"];
-                $pictureSize = $_FILES["profilePicture"]["size"];
-                $pictureTmpName = $_FILES["profilePicture"]["tmp_name"];
-                $pictureFile = file_get_contents($pictureTmpName);
-                $pictureContents = base64_encode($pictureFile);
-                
-                if ($pictureSize <= MAX_SIZE) {
-                  $updatePictureSql = 
-                    "UPDATE User_Pictures SET pictureName = ?, pictureType = ?, 
-                    pictureContents = ? WHERE userId = ?";
-                  $stmt = $conn->prepare($updateProfileSql);
-                  
-                  $stmt->bindValue(1, $pictureName);
-                  $stmt->bindValue(2, $pictureType);
-                  $stmt->bindValue(3, $pictureContents);
-                  $stmt->bindValue(4, $lastInsertId);
-                  $stmt->execute();
-                  
-                  $conn->commit();
-                  header("Location: Profile.php");
-                } else {
-                  $error->setErrorMessage("画像サイズが1Mを超えました");
-                  $conn->rollback();
-                }
-              } else {
-                $conn->commit();
-                header("Location: Profile.php");
-              }
-            } catch (PDOException $e) {
-              $error->setErrorMessage("DB登録失敗" . $e->getMessage());
-              $conn->rollback();
-            }
-          } else {
-            $error->setErrorMessage("名前、年齢、性別が必須項目です");
-          }
-        }
-      }
     ?>
     <div class="container p-4 bg-light">
-      <form class="row g-4" method="POST" action="editProfile.php">
+      <form class="row g-4" method="POST" action="../database/UpdateEditProfile.php">
         <!-- username -->
         <div class="col-md-5">
-          <?php profileTextField($result["username"], "名前", "username"); ?>
+          <?php profileTextField($username, "名前", "username"); ?>
         </div>
         <!-- age -->
         <div class="col-md-3">
@@ -147,43 +72,43 @@
         </div>
         <!-- height -->
         <div class="col-md-3">
-          <?php profileTextField($result["height"], "身長", "height"); ?>
+          <?php profileTextField($height, "身長", "height"); ?>
         </div>
         <!-- weight -->
         <div class="col-md-3">
-          <?php profileTextField($result["weight"], "体重", "weight"); ?>
+          <?php profileTextField($weight, "体重", "weight"); ?>
         </div>
         <!-- blood Type -->
         <div class="col-md-3">
-          <?php profileTextField($result["bloodType"], "血液型", "bloodType"); ?>
+          <?php profileTextField($bloodType, "血液型", "bloodType"); ?>
         </div>
         <!-- location -->
         <div class="col-md-3">
-          <?php profileTextField($result["location"], "出身地", "location"); ?>
+          <?php profileTextField($location, "出身地", "location"); ?>
         </div>
         <!-- interests -->
         <div class="col-md-12">
-          <?php profileTextArea($result["interests"], "趣味", "interests"); ?>
+          <?php profileTextArea($interests, "趣味", "interests"); ?>
         </div>
         <!-- description -->
         <div class="col-md-12">
-          <?php profileTextArea($result["description"], "自己紹介", "description"); ?>
+          <?php profileTextArea($description, "自己紹介", "description"); ?>
         </div>
         <!-- education -->
         <div class="col-md-3">
-          <?php profileTextField($result["education"], "学歴", "education"); ?>
+          <?php profileTextField($education, "学歴", "education"); ?>
         </div>
         <!-- occupation -->
         <div class="col-md-3">
-          <?php profileTextField($result["occupation"], "職業", "occupation"); ?>
+          <?php profileTextField($occupation, "職業", "occupation"); ?>
         </div>
         <!-- smokingHabits -->
         <div class="col-md-3">
-          <?php profileTextField($result["smokingHabits"], "喫煙", "smokingHabits"); ?>
+          <?php profileTextField($smokingHabits, "喫煙", "smokingHabits"); ?>
         </div>
         <!-- drinkingHabits -->
         <div class="col-md-3">
-          <?php profileTextField($result["drinkingHabits"], "飲酒", "drinkingHabits"); ?>
+          <?php profileTextField($drinkingHabits, "飲酒", "drinkingHabits"); ?>
         </div>
         <!-- profile picture -->
         <div class="col-md-12">
@@ -193,7 +118,6 @@
             name="profilePicture" id="profilePicture"
           >
         </div>
-        <div class="col-12 text-center text-danger"><?php $error->displayErrorMessage();?></div>
         <!-- submit -->
         <div class="col-md-6 d-grid">
           <input 
@@ -208,7 +132,8 @@
             プロフィール画面に戻る
           </a>
         </div>
-        <input type="hidden" name="userId" value="<?php echo $_SESSION["userId"];?>">
+        <input type="hidden" name="userId" value="<?php echo $userId;?>">
+        <div class="text-center text-danger"><?php displayErrorMessage();?></div>
       </form>
     </div>
   </body>

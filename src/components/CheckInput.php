@@ -24,15 +24,3 @@ function displayErrorMessage() {
     unset($_SESSION["error_message"]);
   }
 }
-
-class ErrorMessage {
-  private $message;
-  
-  public function setErrorMessage ($message) {
-    $this->message = $message;
-  }
-  
-  public function displayErrorMessage () {
-    echo $this->message;
-  }
-}

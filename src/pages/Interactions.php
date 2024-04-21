@@ -17,8 +17,6 @@
       include_once("../components/CommonTools.php");
       include_once("../components/CheckInput.php");
       
-      $error = new ErrorMessage;
-      
       $loginUserId = $_SESSION["userId"];
       
       if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -51,7 +49,7 @@
               }
             } 
           } catch (PDOException $e) {
-            $error->setErrorMessage("DB error" . $e->getMessage());
+            setErrorMessage("DB error" . $e->getMessage());
           }
         }
       }
@@ -72,13 +70,13 @@
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $row = $stmt->rowCount();
       } catch (PDOException $e) {
-        $error->setErrorMessage("DB error: " . $e->getMessage());
+        setErrorMessage("DB error: " . $e->getMessage());
       }
     ?>
     <div class="container p-4 bg-light">
       <div class="col-12 text-danger">
         <?php 
-          $error->displayErrorMessage();
+          displayErrorMessage();
           if ($row === 0) {
             echo "<h1 class='text-dark text-center'>いいねする相手いません<h1>";
           }

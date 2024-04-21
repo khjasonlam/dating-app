@@ -32,8 +32,9 @@ try {
   setErrorMessage("DB Error: " . $e->getMessage());
   }
 
+$userId = checkValue($result['userId']);
 $username = checkValue($result['username']);
-$gender = $result['gender'];
+$gender = checkValue($result['gender']);
 $age = $result['age'];
 $bloodType = checkValue($result['bloodType']);
 $location = checkValue($result['location']);
@@ -46,8 +47,8 @@ $occupation = checkValue($result['occupation']);
 $smokingHabits = checkValue($result['smokingHabits']);
 $drinkingHabits = checkValue($result['drinkingHabits']);
 
-$pictureContents = $result['pictureContents'];
-$pictureType = $result['pictureType'];
+$pictureContents = checkValue($result['pictureContents']);
+$pictureType = checkValue($result['pictureType']);
 
 $profileArray = [
   "性別" => $gender, 

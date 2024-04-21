@@ -64,8 +64,8 @@ if (isset($_POST["registerSubmit"])) {
           setErrorMessage("このログインIDが登録済みです");
         } 
       } catch (PDOException $e) {
-        $conn->rollback();
         setErrorMessage("DB登録失敗" . $e->getMessage());
+        $conn->rollback();
       }
     } else {
       setErrorMessage("画像サイズが1Mを超えました");
