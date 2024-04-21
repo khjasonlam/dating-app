@@ -1,6 +1,3 @@
-<?php
-  session_start();
-?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -13,75 +10,12 @@
   </head>
   <body>
     <?php
-      include_once("../database/Pdo.php");
       include_once("../components/CommonTools.php");
       include_once("../components/CheckInput.php");
-      
-      $loginUserId = $_SESSION["userId"];
-      
-      if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        if (isset($_POST["likeSubmit"])) {
-          try {
-            $likeSql = 
-              "INSERT INTO User_Interactions (userId, targetUserId, interactionType)
-              VALUES (?, ?, ?)";
-            $stmt = $conn->prepare($likeSql);
-            
-            $stmt->bindValue(1, $_POST["loginUserId"]);
-            $stmt->bindValue(2, $_POST["targetUserId"]);
-            $stmt->bindValue(3, $_POST["likeSubmit"]);
-            $result = $stmt->execute();
-            
-            if ($result) {
-              $checklikeSql = 
-                "SELECT userId FROM User_Interactions 
-                WHERE userId = ? AND targetUserId = ? AND interactionType = ?";
-              $stmt = $conn->prepare($checklikeSql);
-              
-              $stmt->bindValue(1, $_POST["targetUserId"]);
-              $stmt->bindValue(2, $_POST["loginUserId"]);
-              $stmt->bindValue(3, $_POST["likeSubmit"]);
-              $stmt->execute();
-              
-              $result = $stmt->fetch(PDO::FETCH_ASSOC);
-              if (!empty($result)) {
-                echo "Yeah, you are matched with" . $result["userId"];
-              }
-            } 
-          } catch (PDOException $e) {
-            setErrorMessage("DB error" . $e->getMessage());
-          }
-        }
-      }
-      
-      try {
-        $likeListSql = 
-          "SELECT u.userId, u.username, u.age, u.gender, up.pictureContents, up.pictureType 
-          FROM Users u LEFT JOIN User_Pictures up ON u.userId = up.userId 
-          LEFT JOIN User_Interactions ui ON u.userId = ui.targetUserId AND ui.userId = ? 
-          WHERE ui.userId IS NULL AND NOT u.userId = ?";
-        
-        $stmt = $conn->prepare($likeListSql);
-        
-        $stmt->bindValue(1, $loginUserId);
-        $stmt->bindValue(2, $loginUserId);
-        $stmt->execute();
-        
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $row = $stmt->rowCount();
-      } catch (PDOException $e) {
-        setErrorMessage("DB error: " . $e->getMessage());
-      }
+      include_once("../database/SelectInteractions.php");
     ?>
     <div class="container p-4 bg-light">
-      <div class="col-12 text-danger">
-        <?php 
-          displayErrorMessage();
-          if ($row === 0) {
-            echo "<h1 class='text-dark text-center'>いいねする相手いません<h1>";
-          }
-        ?>
-      </div>
+      <div class="text-center text-danger"><?php displayErrorMessage();?></div>
       <div class="row row-cols-1 row-cols-md-3 g-4">
         <?php 
           foreach ($result as $key => $users) {
@@ -108,7 +42,7 @@
                 <p class="card-text">
                   <?php echo $gender; ?>
                 </p>
-                <form class="d-grid gap-2" method="POST" action="Interactions.php">
+                <form class="d-grid gap-2" method="POST" action="../database/ProcessInteractions.php">
                   <input type="hidden" name="loginUserId" value="<?php echo $loginUserId; ?>">
                   <input type="hidden" name="targetUserId" value="<?php echo $targetUserId; ?>">
                   <button type="submit" class="btn btn-danger" name="likeSubmit" value="like"> 
