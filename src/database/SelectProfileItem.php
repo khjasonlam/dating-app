@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 include_once("Pdo.php");
 
 if (isset($_GET["targetUserId"])) {
@@ -8,7 +6,7 @@ if (isset($_GET["targetUserId"])) {
 } else if (isset($_GET["messageUserId"])) {
   $displayUserId = $_GET["messageUserId"];
 } else {
-  $displayUserId = $_SESSION["userId"];
+  $displayUserId = getUserIdSession();
 }
 
 try {

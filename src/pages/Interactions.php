@@ -43,7 +43,7 @@
                   <?php echo $gender; ?>
                 </p>
                 <form class="d-grid gap-2" method="POST" action="../database/ProcessInteractions.php">
-                  <input type="hidden" name="loginUserId" value="<?php echo $loginUserId; ?>">
+                  <input type="hidden" name="loginUserId" value="<?php echo getUserIdSession(); ?>">
                   <input type="hidden" name="targetUserId" value="<?php echo $targetUserId; ?>">
                   <button type="submit" class="btn btn-danger" name="likeSubmit" value="like"> 
                     <img src="../assets/icon/balloon-heart-fill.svg" width="32" height="32" class="m-1">

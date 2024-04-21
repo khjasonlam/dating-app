@@ -1,10 +1,8 @@
 <?php
-session_start();
-
 include_once("Pdo.php");
 include_once("../components/CheckInput.php");
 
-$loginUserId = $_SESSION["userId"];
+$loginUserId = getUserIdSession();
 
 try {
   $likeListSql = 

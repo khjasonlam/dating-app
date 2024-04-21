@@ -24,3 +24,11 @@ function displayErrorMessage() {
     unset($_SESSION["error_message"]);
   }
 }
+
+function setUserIdSession($userId) {
+  $_SESSION["userId"] = $userId;
+}
+
+function getUserIdSession() {
+  return $_SESSION["userId"];
+}

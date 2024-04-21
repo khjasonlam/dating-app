@@ -62,7 +62,7 @@
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>
         <?php 
           foreach ($result as $users) { 
-            if ($users["senderId"] === $loginUserId) {
+            if ($users["senderId"] === getUserIdSession()) {
               displayMessage("flex-row-reverse", $users);
             } else if ($users["senderId"] == $messageUserId) {
               displayMessage("flex-row", $users);
@@ -73,7 +73,7 @@
         class="container fixed-bottom bg-light p-4 rounded" 
         method="POST" action="../database/ProcessMessage.php"
       >
-        <input type="hidden" name="loginUserId" value="<?php echo $loginUserId; ?>">
+        <input type="hidden" name="loginUserId" value="<?php echo getUserIdSession(); ?>">
         <input type="hidden" name="messageUserId" value="<?php echo $messageUserId; ?>">
         <div class="row mx-1">
           <input 

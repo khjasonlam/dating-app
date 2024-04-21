@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 include_once("Pdo.php");
 include_once("../components/CheckInput.php");
 
@@ -18,7 +16,7 @@ if (isset($_POST["loginSubmit"])) {
       $loginUser = $stmt->fetch(PDO::FETCH_ASSOC);
       
       if (!empty($loginUser)) {
-        $_SESSION['userId'] = $loginUser['userId'];
+        setUserIdSession($loginUser["userId"]);
         header("Location: ../pages/Profile.php");
       } else {
         setErrorMessage("ログインID又はパスワードが間違いました");

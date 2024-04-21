@@ -1,5 +1,4 @@
 <?php
-session_start();
 include_once("Pdo.php");
 include_once("../components/CheckInput.php");
 
@@ -15,7 +14,7 @@ try {
       AND ui1.userId = ?";
     $stmt = $conn->prepare($matchedSql);
     
-    $stmt->bindValue(1, $_SESSION["userId"]);
+    $stmt->bindValue(1, getUserIdSession());
     $stmt->execute();
     
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

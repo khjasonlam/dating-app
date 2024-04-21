@@ -41,7 +41,10 @@ function checkActive($directory) {
         <div class="btn-group container justify-content-end">
           <form method="POST" action="<?php $_SERVER["SCRIPT_NAME"];?>">
             <button type="submit" name="logoutSubmit" class="btn btn-link p-0">
-              <img src="../assets/icon/box-arrow-in-right.svg" width="40" height="40" class="mx-5">
+              <img 
+                src="../assets/icon/box-arrow-in-right.svg" 
+                width="40" height="40" class="mx-5"
+              >
             </button>
           </form>
         </div>
