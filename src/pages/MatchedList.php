@@ -1,6 +1,3 @@
-<?php 
-  session_start(); 
-?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -13,43 +10,20 @@
   </head>
   <body>
     <?php
-      include_once("../database/Pdo.php");
       include_once("../components/CommonTools.php");
       include_once("../components/CheckInput.php");
-      
-      try {
-        $matchedSql = 
-          "SELECT ui2.userId, u.username, u.age, u.description, 
-            up.pictureContents, up.pictureType FROM User_Interactions ui1 
-            INNER JOIN User_Interactions ui2 ON ui1.userId = ui2.TargetUserId 
-            AND ui1.TargetUserId = ui2.userId
-            INNER JOIN Users u ON ui2.userId = u.userId
-            INNER JOIN User_Pictures up ON u.userId = up.userId
-            WHERE ui1.interactionType = 'like' AND ui2.interactionType = 'like' 
-            AND ui1.userId = ?";
-          $stmt = $conn->prepare($matchedSql);
-          
-          $stmt->bindValue(1, $_SESSION["userId"]);
-          $stmt->execute();
-          
-          $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-          $row = $stmt->rowCount();
-      } catch (PDOException $e) {
-        echo $e->getMessage();
-      }
+      include_once("../database/SelectMatchedList.php");
     ?>
     <div class="container p-4 bg-light">
+      <div class="text-center text-danger"><?php displayErrorMessage();?></div>
       <?php 
-        if (empty($result)) {
-          echo "<div class='col-12 text-danger'>マッチングした相手がいません</div>";
-        } else {
-          foreach ($result as $users) { 
-            $targetUserId = $users["userId"];
-            $username = $users["username"];
-            $age = $users["age"];
-            $description = $users["description"];
-            $pictureContents = $users["pictureContents"];
-            $pictureType = $users["pictureType"];
+        foreach ($result as $users) { 
+          $targetUserId = testInputValue($users["userId"]);
+          $username = testInputValue($users["username"]);
+          $age = testInputValue($users["age"]);
+          $description = testInputValue($users["description"]);
+          $pictureContents = testInputValue($users["pictureContents"]);
+          $pictureType = testInputValue($users["pictureType"]);
       ?>
         <form method="GET" action="Message.php">
           <input type="hidden" name="messageUserId" value="<?php echo $targetUserId;?>">
@@ -78,8 +52,7 @@
           </div>
         </form>
       <?php 
-          }
-        } 
+        }
       ?>
     </div>
   </body>
