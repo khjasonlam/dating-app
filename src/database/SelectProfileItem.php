@@ -29,8 +29,8 @@ try {
   $result = $stmt->fetch(PDO::FETCH_ASSOC);
   
 } catch (PDOException $e) {
-  echo $e->getMessage();
-}
+  setErrorMessage("DB Error: " . $e->getMessage());
+  }
 
 $username = checkValue($result['username']);
 $gender = $result['gender'];
