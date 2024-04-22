@@ -1,5 +1,6 @@
 <?php
 include_once("Pdo.php");
+include_once("../components/CheckInput.php");
 
 if (isset($_GET["targetUserId"])) {
   $displayUserId = $_GET["targetUserId"];
