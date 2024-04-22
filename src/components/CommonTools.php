@@ -5,7 +5,7 @@ $menubar = [
   "プロフィール" => "/dating-app/src/pages/Profile.php"
 ];
 
-function checkActive($directory) {
+function checkActivePage($directory) {
   if ($directory === $_SERVER["SCRIPT_NAME"]) {
     $mode = "btn btn-outline-dark active";
   } else {
@@ -33,7 +33,7 @@ function checkActive($directory) {
           <?php 
             include_once("LoginStatus.php");
             foreach ($menubar as $title => $directory) {
-              $btnClass = checkActive($directory);
+              $btnClass = checkActivePage($directory);
               echo "<a href='$directory' class='$btnClass'>$title</a>";
             }
           ?>
