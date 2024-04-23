@@ -1,6 +1,3 @@
-<?php 
-  session_start();
-?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>DATING APP | PROFILE</title>
-    <link rel="icon" href="../icon/calendar-heart-fill.svg">
-    <link rel="stylesheet" href="../css/Style.css">
+    <link rel="icon" href="../assets/icon/calendar-heart-fill.svg">
+    <link rel="stylesheet" href="../assets/css/Style.css">
   </head>
-  <body class="bg-info-subtle">
+  <body>
     <?php
-      include_once("Pdo.php");
-      include_once("CommonTools.php");
-      include_once("LoginStatus.php");
-      include_once("CheckInput.php");
-      include_once("SelectProfileItem.php");
+      include_once("../components/CommonTools.php");
+      include_once("../components/CheckInput.php");
+      include_once("../database/SelectProfileItem.php");
     ?>
     <div class="container p-4 bg-light">
       <div class="row">
@@ -34,9 +29,9 @@
               <?php echo $username ?>
             </div>
             <div class="col-3 col-md-3">
-              <?php if ($displayUserId === $_SESSION["userId"]) { ?>
+              <?php if ($displayUserId === getUserIdSession()) { ?>
                 <a class="float-end" href="EditProfile.php">
-                  <img src="../icon/pencil-square.svg" width="32" height="32" class="m-2">
+                  <img src="../assets/icon/pencil-square.svg" width="32" height="32" class="m-2">
                 </a>
               <?php } ?>
             </div>
