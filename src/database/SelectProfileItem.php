@@ -1,12 +1,13 @@
 <?php
-session_start();
+include_once("Pdo.php");
+include_once("../components/CheckInput.php");
 
 if (isset($_GET["targetUserId"])) {
   $displayUserId = $_GET["targetUserId"];
 } else if (isset($_GET["messageUserId"])) {
   $displayUserId = $_GET["messageUserId"];
 } else {
-  $displayUserId = $_SESSION["userId"];
+  $displayUserId = getUserIdSession();
 }
 
 try {
@@ -27,11 +28,12 @@ try {
   $result = $stmt->fetch(PDO::FETCH_ASSOC);
   
 } catch (PDOException $e) {
-  echo $e->getMessage();
-}
+  setErrorMessage("DB Error: " . $e->getMessage());
+  }
 
+$userId = checkValue($result['userId']);
 $username = checkValue($result['username']);
-$gender = $result['gender'];
+$gender = checkValue($result['gender']);
 $age = $result['age'];
 $bloodType = checkValue($result['bloodType']);
 $location = checkValue($result['location']);
@@ -44,8 +46,8 @@ $occupation = checkValue($result['occupation']);
 $smokingHabits = checkValue($result['smokingHabits']);
 $drinkingHabits = checkValue($result['drinkingHabits']);
 
-$pictureContents = $result['pictureContents'];
-$pictureType = $result['pictureType'];
+$pictureContents = checkValue($result['pictureContents']);
+$pictureType = checkValue($result['pictureType']);
 
 $profileArray = [
   "性別" => $gender, 
