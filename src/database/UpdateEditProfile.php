@@ -50,22 +50,23 @@ if (isset($_POST["editProfileSubmit"])) {
           
           $conn->commit();
           header("Location: ../pages/Profile.php");
+          exit;
         } else {
           setErrorMessage("画像サイズが1Mを超えました");
           $conn->rollback();
-          header("Location: ../pages/EditProfile.php");
         }
       } else {
         $conn->commit();
         header("Location: ../pages/Profile.php");
+        exit;
       }
     } catch (PDOException $e) {
       setErrorMessage("DB登録失敗: " . $e->getMessage());
       $conn->rollback();
-      header("Location: ../pages/EditProfile.php");
     }
   } else {
     setErrorMessage("名前、年齢、性別が必須項目です");
-    header("Location: ../pages/EditProfile.php");
   }
+  header("Location: ../pages/EditProfile.php");
+  exit;
 }
