@@ -29,7 +29,7 @@
       <form class="row g-4" method="POST" action="../database/UpdateEditProfile.php">
         <!-- username -->
         <div class="col-md-5">
-          <?php profileTextField($username, "名前", "username"); ?>
+          <?php profileTextField($result['username'], "名前", "username"); ?>
         </div>
         <!-- age -->
         <div class="col-md-3">
@@ -38,6 +38,7 @@
               <option>年齢を選択していください</option>
               <?php
                 // Generate options for ages 18 to selected age
+                $age = $result['age'];
                 for ($ageRange = 18; $ageRange < 100; $ageRange++) {
                   if ($ageRange === $age) {
                     echo "<option selected value='$age'>$age</option>";
@@ -56,14 +57,14 @@
               <div class="col-6 col-md-6 d-grid">
                 <input 
                   type="radio" class="btn-check" name="gender" id="male" value="男"
-                  <?php if ($gender === "男") echo "checked";?>
+                  <?php if ($result['gender'] === "男") echo "checked";?>
                 >
                 <label class="btn btn-outline-dark btn-lg px-5" for="male">男</label>
               </div>
               <div class="col-6 col-md-6 d-grid">
                 <input 
                   type="radio" class="btn-check" name="gender" id="female" value="女"
-                  <?php if ($gender === "女") echo "checked";?>
+                  <?php if ($result['gender'] === "女") echo "checked";?>
                 >
                 <label class="btn btn-outline-dark btn-lg px-5" for="female">女</label>
               </div>
@@ -72,43 +73,43 @@
         </div>
         <!-- height -->
         <div class="col-md-3">
-          <?php profileTextField($height, "身長", "height"); ?>
+          <?php profileTextField($result['height'], "身長", "height"); ?>
         </div>
         <!-- weight -->
         <div class="col-md-3">
-          <?php profileTextField($weight, "体重", "weight"); ?>
+          <?php profileTextField($result['weight'], "体重", "weight"); ?>
         </div>
         <!-- blood Type -->
         <div class="col-md-3">
-          <?php profileTextField($bloodType, "血液型", "bloodType"); ?>
+          <?php profileTextField($result['bloodType'], "血液型", "bloodType"); ?>
         </div>
         <!-- location -->
         <div class="col-md-3">
-          <?php profileTextField($location, "出身地", "location"); ?>
+          <?php profileTextField($result['location'], "出身地", "location"); ?>
         </div>
         <!-- interests -->
         <div class="col-md-12">
-          <?php profileTextArea($interests, "趣味", "interests"); ?>
+          <?php profileTextArea($result['interests'], "趣味", "interests"); ?>
         </div>
         <!-- description -->
         <div class="col-md-12">
-          <?php profileTextArea($description, "自己紹介", "description"); ?>
+          <?php profileTextArea($result['description'], "自己紹介", "description"); ?>
         </div>
         <!-- education -->
         <div class="col-md-3">
-          <?php profileTextField($education, "学歴", "education"); ?>
+          <?php profileTextField($result['education'], "学歴", "education"); ?>
         </div>
         <!-- occupation -->
         <div class="col-md-3">
-          <?php profileTextField($occupation, "職業", "occupation"); ?>
+          <?php profileTextField($result['occupation'], "職業", "occupation"); ?>
         </div>
         <!-- smokingHabits -->
         <div class="col-md-3">
-          <?php profileTextField($smokingHabits, "喫煙", "smokingHabits"); ?>
+          <?php profileTextField($result['smokingHabits'], "喫煙", "smokingHabits"); ?>
         </div>
         <!-- drinkingHabits -->
         <div class="col-md-3">
-          <?php profileTextField($drinkingHabits, "飲酒", "drinkingHabits"); ?>
+          <?php profileTextField($result['drinkingHabits'], "飲酒", "drinkingHabits"); ?>
         </div>
         <!-- profile picture -->
         <div class="col-md-12">
@@ -132,7 +133,7 @@
             プロフィール画面に戻る
           </a>
         </div>
-        <input type="hidden" name="userId" value="<?php echo $userId;?>">
+        <input type="hidden" name="userId" value="<?php echo $result['userId'];?>">
         <div class="text-center text-danger"><?php displayErrorMessage();?></div>
       </form>
     </div>
