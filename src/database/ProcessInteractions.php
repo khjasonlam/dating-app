@@ -25,16 +25,17 @@ if (isset($_POST["likeSubmit"])) {
       $stmt->bindValue(3, $_POST["likeSubmit"]);
       $stmt->execute();
       
-      $result = $stmt->fetch(PDO::FETCH_ASSOC);
+      $matched = $stmt->fetch(PDO::FETCH_ASSOC);
     } 
   } catch (PDOException $e) {
     setErrorMessage("DB error: " . $e->getMessage());
-    header("Location: ../pages/Interactions.php");
   }
-  if (empty($result)) {
+  if (empty($matched)) {
     header("Location: ../pages/Interactions.php");
+    exit;
   } else {
     echo "success" . $_POST["targetUserId"];
     // header("Location: ../pages/MatchSuccess.php");
+    // exit;
   }
 }

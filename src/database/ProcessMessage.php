@@ -27,4 +27,5 @@ if (isset($_POST["sendMessage"])) {
     setErrorMessage($errorMessage);
   }
   header("Location: ../pages/Message.php?messageUserId=$messageUserId");
+  exit;
 }

@@ -60,6 +60,7 @@ if (isset($_POST["registerSubmit"])) {
           
           $conn->commit();
           header("Location: ../pages/Login.php");
+          exit;
         } else {
           setErrorMessage("このログインIDが登録済みです");
         } 
@@ -74,4 +75,5 @@ if (isset($_POST["registerSubmit"])) {
     setErrorMessage("すべてが必須項目");
   }
   header("Location: ../pages/Register.php");
+  exit;
 }
