@@ -31,7 +31,7 @@
     <?php endif; ?>
     <div class="container p-4 bg-light">
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>
-      <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="row row-cols-1 row-cols-md-3 g-3">
         <?php 
           foreach ($result as $key => $users):
             $targetUserId = $users['userId'];
@@ -42,7 +42,7 @@
             $pictureContents = $users['pictureContents'];
         ?>
           <div class="col">
-            <div class="card h-100 mx-3 text-center">
+            <div class="card h-100 mx-1 text-center">
               <a href="Profile.php?targetUserId=<?php echo $targetUserId; ?>">
                 <img 
                   <?php echo "src='data: $pictureType; base64, $pictureContents'"; ?>
@@ -52,10 +52,10 @@
               </a>
               <div class="card-body">
                 <h5 class="card-title">
-                  <?php echo "$username ($age)"; ?>
+                  <?php echo $username; ?>
                 </h5>
                 <p class="card-text">
-                  <?php echo $gender; ?>
+                  <?php echo "$gender ($age)"; ?>
                 </p>
                 <form class="d-grid gap-2" method="POST" action="../database/ProcessInteractions.php">
                   <input type="hidden" name="loginUserId" value="<?php echo getUserIdSession(); ?>">
