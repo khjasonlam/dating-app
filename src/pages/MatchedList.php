@@ -17,7 +17,7 @@
     <div class="container p-4 bg-light">
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>
       <?php 
-        foreach ($result as $users) { 
+        foreach ($result as $users):
           $targetUserId = testInputValue($users["userId"]);
           $username = testInputValue($users["username"]);
           $age = testInputValue($users["age"]);
@@ -52,7 +52,7 @@
           </div>
         </form>
       <?php 
-        }
+        endforeach;
       ?>
     </div>
   </body>

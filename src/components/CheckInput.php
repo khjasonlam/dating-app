@@ -32,3 +32,15 @@ function setUserIdSession($userId) {
 function getUserIdSession() {
   return $_SESSION["userId"];
 }
+
+function setMatchedUserSession($userId) {
+  $_SESSION["matched"] = true; 
+}
+
+function getMatchedUserSession() {
+  if (isset($_SESSION["matched"])) {
+    $matched = true;
+    unset($_SESSION["matched"]);
+  }
+  return $matched;
+}
