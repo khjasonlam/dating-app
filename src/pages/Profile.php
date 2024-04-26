@@ -29,11 +29,11 @@
               <?php echo $username ?>
             </div>
             <div class="col-3 col-md-3">
-              <?php if ($displayUserId === getUserIdSession()) { ?>
+              <?php if ($displayUserId === getUserIdSession()): ?>
                 <a class="float-end" href="EditProfile.php">
                   <img src="../assets/icon/pencil-square.svg" width="32" height="32" class="m-2">
                 </a>
-              <?php } ?>
+              <?php endif; ?>
             </div>
           </div>
           <?php
