@@ -13,17 +13,17 @@
     include_once("../components/CheckInput.php");
     include_once("../database/SelectProfileItem.php");
     include_once("../components/CommonTools.php");
-      
-      function profileTextField($itemValue, $itemTitle, $itemKey) {
-        echo "<label for='$itemKey' class='form-label'>$itemTitle</label>";
-        echo "<input type='text' class='form-control form-control-lg' 
-          name='$itemKey' placeholder='$itemTitle"."を入力して下さい' value='$itemValue'>";
-      }
-      function profileTextArea($itemValue, $itemTitle, $itemKey) {
-        echo "<label for='$itemKey' class='form-label'>$itemTitle</label>";
-        echo "<textarea class='form-control form-control-lg' name='$itemKey' 
-          placeholder='$itemTitle"."を入力して下さい'>$itemValue</textarea>";
-      }
+    
+    function profileTextField($itemValue, $itemTitle, $itemKey) {
+      echo "<label for='$itemKey' class='form-label'>$itemTitle</label>";
+      echo "<input type='text' class='form-control form-control-lg' 
+        name='$itemKey' placeholder='$itemTitle"."を入力して下さい' value='$itemValue'>";
+    }
+    function profileTextArea($itemValue, $itemTitle, $itemKey) {
+      echo "<label for='$itemKey' class='form-label'>$itemTitle</label>";
+      echo "<textarea class='form-control form-control-lg' name='$itemKey' 
+        placeholder='$itemTitle"."を入力して下さい'>$itemValue</textarea>";
+    }
     ?>
     <div class="container p-4 bg-light">
       <form class="row g-4" method="POST" action="../database/UpdateEditProfile.php">
@@ -37,15 +37,15 @@
             <select class="form-select form-select-lg" name="age">
               <option>年齢を選択していください</option>
               <?php
-                // Generate options for ages 18 to selected age
-                $age = $result['age'];
-                for ($ageRange = 18; $ageRange < 100; $ageRange++) {
-                  if ($ageRange === $age) {
-                    echo "<option selected value='$age'>$age</option>";
-                  } else {
-                    echo "<option value='$ageRange'>$ageRange</option>";
-                  }
+              // Generate options for ages 18 to selected age
+              $age = $result['age'];
+              for ($ageRange = 18; $ageRange < 100; $ageRange++) {
+                if ($ageRange === $age) {
+                  echo "<option selected value='$age'>$age</option>";
+                } else {
+                  echo "<option value='$ageRange'>$ageRange</option>";
                 }
+              }
               ?>
             </select>
         </div>

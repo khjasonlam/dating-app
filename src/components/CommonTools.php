@@ -24,19 +24,19 @@ function checkActivePage($directory) {
       >
     </div>
     <?php 
-      $showMenubar = 
-        $_SERVER["SCRIPT_NAME"] !== "/dating-app/src/pages/Login.php" && 
-        $_SERVER["SCRIPT_NAME"] !== "/dating-app/src/pages/Register.php";
-      if ($showMenubar):
+    $showMenubar = 
+      $_SERVER["SCRIPT_NAME"] !== "/dating-app/src/pages/Login.php" && 
+      $_SERVER["SCRIPT_NAME"] !== "/dating-app/src/pages/Register.php";
+    if ($showMenubar):
     ?>
       <div class="col-8">
         <div class="btn-group container">
           <?php 
-            include_once("LoginStatus.php");
-            foreach ($menubar as $title => $directory) {
-              $btnClass = checkActivePage($directory);
-              echo "<a href='$directory' class='$btnClass'>$title</a>";
-            }
+          include_once("LoginStatus.php");
+          foreach ($menubar as $title => $directory) {
+            $btnClass = checkActivePage($directory);
+            echo "<a href='$directory' class='$btnClass'>$title</a>";
+          }
           ?>
         </div>
       </div>
@@ -56,8 +56,8 @@ function checkActivePage($directory) {
   </div>
 </div>
 <?php 
-  $isMatched = getMatchedUserSession();
-  if (isset($isMatched)):
+$isMatched = getMatchedUserSession();
+if (isset($isMatched)):
 ?>
 <div class='z-3 bg-danger position-absolute w-100 h-100' id='success'>
   <div class="position-absolute text-center top-50 start-50 translate-middle fs-1">

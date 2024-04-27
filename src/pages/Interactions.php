@@ -18,13 +18,13 @@
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>
       <div class="row row-cols-1 row-cols-md-3 g-3">
         <?php 
-          foreach ($result as $key => $users):
-            $targetUserId = $users['userId'];
-            $username = $users['username'];
-            $age = $users['age'];
-            $gender = $users['gender'];
-            $pictureType = $users['pictureType'];
-            $pictureContents = $users['pictureContents'];
+        foreach ($result as $key => $users):
+          $targetUserId = $users['userId'];
+          $username = $users['username'];
+          $age = $users['age'];
+          $gender = $users['gender'];
+          $pictureType = $users['pictureType'];
+          $pictureContents = $users['pictureContents'];
         ?>
           <div class="col">
             <div class="card h-100 mx-1 text-center">

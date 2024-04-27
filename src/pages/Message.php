@@ -61,13 +61,13 @@
       <div class="card-body overflow-auto">
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>
         <?php 
-          foreach ($result as $users) { 
-            if ($users["senderId"] === getUserIdSession()) {
-              displayMessage("flex-row-reverse", $users);
-            } else if ($users["senderId"] == $messageUserId) {
-              displayMessage("flex-row", $users);
-            }
+        foreach ($result as $users) { 
+          if ($users["senderId"] === getUserIdSession()) {
+            displayMessage("flex-row-reverse", $users);
+          } else if ($users["senderId"] == $messageUserId) {
+            displayMessage("flex-row", $users);
           }
+        }
         ?>
       <form 
         class="container fixed-bottom bg-light p-4 rounded" 

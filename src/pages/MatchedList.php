@@ -17,13 +17,13 @@
     <div class="container p-4 bg-light">
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>
       <?php 
-        foreach ($result as $users):
-          $targetUserId = testInputValue($users["userId"]);
-          $username = testInputValue($users["username"]);
-          $age = testInputValue($users["age"]);
-          $description = testInputValue($users["description"]);
-          $pictureContents = testInputValue($users["pictureContents"]);
-          $pictureType = testInputValue($users["pictureType"]);
+      foreach ($result as $users):
+        $targetUserId = testInputValue($users["userId"]);
+        $username = testInputValue($users["username"]);
+        $age = testInputValue($users["age"]);
+        $description = testInputValue($users["description"]);
+        $pictureContents = testInputValue($users["pictureContents"]);
+        $pictureType = testInputValue($users["pictureType"]);
       ?>
         <form method="GET" action="Message.php">
           <input type="hidden" name="messageUserId" value="<?php echo $targetUserId;?>">
@@ -51,9 +51,7 @@
             </div>
           </div>
         </form>
-      <?php 
-        endforeach;
-      ?>
+      <?php endforeach; ?>
     </div>
   </body>
 </html>
