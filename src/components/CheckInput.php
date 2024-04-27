@@ -44,3 +44,9 @@ function getMatchedUserSession() {
   }
   return $matched;
 }
+
+function unsetAllSession() {
+  session_unset();
+  header("Location: ../pages/Login.php");
+  exit();
+}

@@ -13,14 +13,16 @@
     │   │   ├── calendar-heart-fill.svg
     │   │   ├── pencil-fill.svg
     │   │   ├── pencil-square.svg
-    │   │   └── people-fill.svg
+    │   │   ├── people-fill.svg
+    │   │   └── person-x.svg
     │   └── js
     │       └── MatchedSuccess.js
     ├── components
     │   ├── CheckInput.php
-    │   ├── CommonTools.php
-    │   └── LoginStatus.php
+    │   └── CommonTools.php
     ├── database
+    │   ├── DeleteAccount.php
+    │   ├── LoginStatus.php
     │   ├── Pdo.php
     │   ├── ProcessInteractions.php
     │   ├── ProcessLogin.php

@@ -10,8 +10,8 @@
   </head>
   <body>
     <?php
-      include_once("../components/CommonTools.php");
-      include_once("../components/CheckInput.php");
+    include_once("../components/CheckInput.php");
+    include_once("../components/CommonTools.php");
     ?>
     <div class="container p-4 bg-light">
       <form class="row g-4" method="POST" action="../database/ProcessRegister.php">
@@ -53,10 +53,10 @@
           <select class="form-select form-select-lg" name="age">
             <option selected>年齢を選択してください</option>
             <?php
-              // Generate options for ages 18 to 100
-              for ($ageRange = 18; $ageRange <= 100; $ageRange++) {
-                echo "<option value='$ageRange'>$ageRange</option>";
-              }
+            // Generate options for ages 18 to 100
+            for ($ageRange = 18; $ageRange <= 100; $ageRange++) {
+              echo "<option value='$ageRange'>$ageRange</option>";
+            }
             ?>
           </select>
         </div>

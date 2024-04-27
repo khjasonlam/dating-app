@@ -63,3 +63,28 @@ $profileArray = [
   "喫煙" => $smokingHabits, 
   "飲酒" => $drinkingHabits
 ];
+
+if ($displayUserId === $_GET["targetUserId"]) {
+  $checkLikedSql = 
+  "SELECT userId, targetUserId FROM User_Interactions 
+  WHERE userId = ? AND targetUserId = ? AND interactionType = 'like'";
+  try {
+    $stmt = $conn->prepare($checkLikedSql);
+    $stmt->bindValue(1, getUserIdSession());
+    $stmt->bindValue(2, $displayUserId);
+    $stmt->execute();
+    
+    $liked = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($liked) {
+      $stmt = $conn->prepare($checkLikedSql);
+      $stmt->bindValue(1, $displayUserId);
+      $stmt->bindValue(2, getUserIdSession());
+      $stmt->execute();
+      
+      $matched = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+  } catch (PDOException $e) {
+    setErrorMessage("Error" . $e->getMessage());
+  }
+}
