@@ -28,9 +28,9 @@
           <a href="EditProfile.php" class="btn btn-outline-dark" type="button">
             プロフィール編集
           </a>
-          <button class="btn btn-outline-danger" type="button">
+          <a href="../database/DeleteAccount.php" class="btn btn-outline-danger" type="button">
             アカウント削除
-          </button>
+          </a>
           <?php elseif (empty($liked)): ?>
           <form class="d-grid gap-2" method="POST" action="../database/ProcessInteractions.php">
             <input type="hidden" name="targetUserId" value="<?php echo $displayUserId; ?>">
