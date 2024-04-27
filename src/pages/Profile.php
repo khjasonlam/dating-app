@@ -64,6 +64,5 @@
         </div>
       </div>
     </div>
-    <script src="../assets/js/MatchedSuccess.js"></script>
   </body>
 </html>
