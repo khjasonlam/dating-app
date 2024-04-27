@@ -3,15 +3,18 @@ include_once("Pdo.php");
 include_once("../components/CheckInput.php");
 
 if (isset($_POST["likeSubmit"])) {
+  $loginUserId = getUserIdSession();
+  $targetUserId = $_POST["targetUserId"];
+  $likeSubmit = $_POST["likeSubmit"];
   try {
     $likeSql = 
       "INSERT INTO User_Interactions (userId, targetUserId, interactionType)
       VALUES (?, ?, ?)";
     $stmt = $conn->prepare($likeSql);
     
-    $stmt->bindValue(1, $_POST["loginUserId"]);
-    $stmt->bindValue(2, $_POST["targetUserId"]);
-    $stmt->bindValue(3, $_POST["likeSubmit"]);
+    $stmt->bindValue(1, $loginUserId);
+    $stmt->bindValue(2, $targetUserId);
+    $stmt->bindValue(3, $likeSubmit);
     $result = $stmt->execute();
     
     if ($result) {
@@ -20,19 +23,23 @@ if (isset($_POST["likeSubmit"])) {
         WHERE userId = ? AND targetUserId = ? AND interactionType = ?";
       $stmt = $conn->prepare($checklikeSql);
       
-      $stmt->bindValue(1, $_POST["targetUserId"]);
-      $stmt->bindValue(2, $_POST["loginUserId"]);
-      $stmt->bindValue(3, $_POST["likeSubmit"]);
+      $stmt->bindValue(1, $targetUserId);
+      $stmt->bindValue(2, $loginUserId);
+      $stmt->bindValue(3, $likeSubmit);
       $stmt->execute();
       
       $matched = $stmt->fetch(PDO::FETCH_ASSOC);
       if ($matched) {
-        setMatchedUserSession($_POST["targetUserId"]);
+        setMatchedUserSession($targetUserId);
       }
     } 
   } catch (PDOException $e) {
     setErrorMessage("DB error: " . $e->getMessage());
   }
-  header("Location: ../pages/Interactions.php");
-  exit;
+  if ($_POST["likePage"] === "profile") {
+    header("Location: ../pages/Profile.php?targetUserId=".$targetUserId);
+  } else {
+    header("Location: ../pages/Interactions.php");
+  }
+  exit();
 }

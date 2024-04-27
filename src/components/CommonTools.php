@@ -14,6 +14,7 @@ function checkActivePage($directory) {
   return $mode;
 }
 ?>
+<script src="../assets/js/MatchedSuccess.js"></script>
 <div class="sticky-top container-fluid bg-warning py-3">
   <div class="row g-2">
     <div class="col-2">
@@ -26,7 +27,7 @@ function checkActivePage($directory) {
       $showMenubar = 
         $_SERVER["SCRIPT_NAME"] !== "/dating-app/src/pages/Login.php" && 
         $_SERVER["SCRIPT_NAME"] !== "/dating-app/src/pages/Register.php";
-      if ($showMenubar) { 
+      if ($showMenubar):
     ?>
       <div class="col-8">
         <div class="btn-group container">
@@ -51,6 +52,21 @@ function checkActivePage($directory) {
           </form>
         </div>
       </div>
-    <?php } ?>
+    <?php endif; ?>
   </div>
 </div>
+<?php 
+  $isMatched = getMatchedUserSession();
+  if (isset($isMatched)):
+?>
+<div class='z-3 bg-danger position-absolute w-100 h-100' id='success'>
+  <div class="position-absolute text-center top-50 start-50 translate-middle fs-1">
+    <img 
+      src="../assets/icon/arrow-through-heart-fill.svg" 
+      width="200" height="200"
+    >
+    <br>
+    マッチしました
+  </div>
+</div>
+<?php endif; ?>

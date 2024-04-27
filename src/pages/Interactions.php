@@ -10,25 +10,10 @@
   </head>
   <body>
     <?php
-      include_once("../components/CommonTools.php");
-      include_once("../components/CheckInput.php");
-      include_once("../database/SelectInteractions.php");
+    include_once("../components/CheckInput.php");
+    include_once("../database/SelectInteractions.php");
+    include_once("../components/CommonTools.php");
     ?>
-    <?php 
-      $matched = getMatchedUserSession();
-      if (isset($matched)):
-    ?>
-      <div class='z-3 bg-danger position-absolute w-100 h-100' id='success'>
-        <div class="position-absolute text-center top-50 start-50 translate-middle fs-1">
-          <img 
-            src="../assets/icon/arrow-through-heart-fill.svg" 
-            width="200" height="200"
-          >
-          <br>
-          マッチしました
-        </div>
-      </div>
-    <?php endif; ?>
     <div class="container p-4 bg-light">
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>
       <div class="row row-cols-1 row-cols-md-3 g-3">
@@ -58,8 +43,8 @@
                   <?php echo "$gender ($age)"; ?>
                 </p>
                 <form class="d-grid gap-2" method="POST" action="../database/ProcessInteractions.php">
-                  <input type="hidden" name="loginUserId" value="<?php echo getUserIdSession(); ?>">
                   <input type="hidden" name="targetUserId" value="<?php echo $targetUserId; ?>">
+                  <input type="hidden" name="likePage" value="interactions">
                   <button type="submit" class="btn btn-danger" name="likeSubmit" value="like"> 
                     <img src="../assets/icon/balloon-heart-fill.svg" width="32" height="32" class="m-1">
                   </button>
@@ -70,6 +55,5 @@
         <?php endforeach; ?>
       </div>
     </div> 
-    <script src="../assets/js/MatchedSuccess.js"></script>
   </body>
 </html>
