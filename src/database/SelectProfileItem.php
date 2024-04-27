@@ -63,3 +63,24 @@ $profileArray = [
   "喫煙" => $smokingHabits, 
   "飲酒" => $drinkingHabits
 ];
+
+if ($displayUserId === $_GET["targetUserId"]) {
+  try {
+    $SelectMatchedProfileId = 
+      "SELECT i1.userId, i1.targetUserId FROM User_Interactions i1
+      INNER JOIN User_Interactions i2 ON i1.userId = i2.targetUserId
+      WHERE i1.userId = ? AND i1.targetUserId = ? 
+      AND i2.userId = ? AND i2.targetUserId = ?";
+      $stmt = $conn->prepare($SelectMatchedProfileId);
+      
+      $stmt->bindValue(1, getUserIdSession());
+      $stmt->bindValue(2, $displayUserId);
+      $stmt->bindValue(3, $displayUserId);
+      $stmt->bindValue(4, getUserIdSession());
+      $stmt->execute();
+      
+      $matched = $stmt->fetch(PDO::FETCH_ASSOC);
+  } catch (PDOException $e) {
+    setErrorMessage("Error:" . $e->getMessage());
+  }
+}
