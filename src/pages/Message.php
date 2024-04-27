@@ -10,29 +10,29 @@
   </head>
   <body>
     <?php
-      include_once("../components/CommonTools.php");
-      include_once("../components/CheckInput.php");
-      include_once("../database/SelectProfileItem.php");
-      include_once("../database/SelectMessage.php");
-      
-      function displayMessage ($class, $users) {
-        $messageContent = testInputValue($users["messageContent"]);
-        $pictureContents = testInputValue($users["pictureContents"]);
-        $pictureType = testInputValue($users["pictureType"]);
-        echo 
-          "<div class='d-flex $class my-2'>
-            <img 
-              src='data: $pictureType; base64, $pictureContents' 
-              class='rounded-circle border my-1' height='60px' width='60px'
-            >
-            <div 
-              class='rounded text-break text-bg-primary m-3 px-4 py-2 h5' 
-              style='max-width: 350px'
-            >
-              $messageContent
-            </div>
-          </div>";
-      }
+    include_once("../components/CheckInput.php");
+    include_once("../database/SelectProfileItem.php");
+    include_once("../database/SelectMessage.php");
+    include_once("../components/CommonTools.php");
+    
+    function displayMessage ($class, $users) {
+      $messageContent = testInputValue($users["messageContent"]);
+      $pictureContents = testInputValue($users["pictureContents"]);
+      $pictureType = testInputValue($users["pictureType"]);
+      echo 
+        "<div class='d-flex $class my-2'>
+          <img 
+            src='data: $pictureType; base64, $pictureContents' 
+            class='rounded-circle border my-1' height='60px' width='60px'
+          >
+          <div 
+            class='rounded text-break text-bg-primary m-3 px-4 py-2 h5' 
+            style='max-width: 350px'
+          >
+            $messageContent
+          </div>
+        </div>";
+    }
     ?>
     <div class="container p-4 bg-light">
     <div class="card mb-3" style="height: 70vh;">

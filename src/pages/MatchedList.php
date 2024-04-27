@@ -10,9 +10,9 @@
   </head>
   <body>
     <?php
-      include_once("../components/CommonTools.php");
-      include_once("../components/CheckInput.php");
-      include_once("../database/SelectMatchedList.php");
+    include_once("../components/CheckInput.php");
+    include_once("../database/SelectMatchedList.php");
+    include_once("../components/CommonTools.php");
     ?>
     <div class="container p-4 bg-light">
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>

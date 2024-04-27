@@ -10,9 +10,9 @@
   </head>
   <body>
     <?php
-      include_once("../components/CommonTools.php");
-      include_once("../components/CheckInput.php");
-      include_once("../database/SelectProfileItem.php");
+    include_once("../components/CheckInput.php");
+    include_once("../database/SelectProfileItem.php");
+    include_once("../components/CommonTools.php");
       
       function profileTextField($itemValue, $itemTitle, $itemKey) {
         echo "<label for='$itemKey' class='form-label'>$itemTitle</label>";

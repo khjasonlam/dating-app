@@ -10,8 +10,8 @@
   </head>
   <body>
     <?php
-      include_once("../components/CommonTools.php");
-      include_once("../components/CheckInput.php");
+    include_once("../components/CheckInput.php");
+    include_once("../components/CommonTools.php");
     ?>
     <div class="container p-5 bg-light">
       <form 
