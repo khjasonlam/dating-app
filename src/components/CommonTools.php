@@ -13,6 +13,11 @@ function checkActivePage($directory) {
   }
   return $mode;
 }
+
+if (isset($_POST['logoutSubmit'])) {
+  unsetAllSession();
+}
+
 ?>
 <script src="../assets/js/MatchedSuccess.js"></script>
 <div class="sticky-top container-fluid bg-warning py-3">
@@ -32,7 +37,7 @@ function checkActivePage($directory) {
       <div class="col-8">
         <div class="btn-group container">
           <?php 
-          include_once("LoginStatus.php");
+          include_once("../database/LoginStatus.php");
           foreach ($menubar as $title => $directory) {
             $btnClass = checkActivePage($directory);
             echo "<a href='$directory' class='$btnClass'>$title</a>";

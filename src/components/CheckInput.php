@@ -30,9 +30,7 @@ function setUserIdSession($userId) {
 }
 
 function getUserIdSession() {
-  if (isset($_SESSION["userId"])) {
-    return $_SESSION["userId"];
-  }
+  return $_SESSION["userId"];
 }
 
 function setMatchedUserSession($userId) {
@@ -43,6 +41,12 @@ function getMatchedUserSession() {
   if (isset($_SESSION["matched"])) {
     $matched = true;
     unset($_SESSION["matched"]);
-    return $matched;
   }
+  return $matched;
+}
+
+function unsetAllSession() {
+  session_unset();
+  header("Location: ../pages/Login.php");
+  exit();
 }
