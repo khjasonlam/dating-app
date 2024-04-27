@@ -25,27 +25,27 @@
           >
           <div class="d-grid gap-2 col-9 mx-auto my-3">
           <?php if ($displayUserId === getUserIdSession()): ?>
-            <a href="EditProfile.php" class="btn btn-outline-dark" type="button">
-              プロフィール編集
-            </a>
-            <button class="btn btn-outline-danger" type="button">
-              アカウント削除
+          <a href="EditProfile.php" class="btn btn-outline-dark" type="button">
+            プロフィール編集
+          </a>
+          <button class="btn btn-outline-danger" type="button">
+            アカウント削除
+          </button>
+          <?php elseif (empty($liked)): ?>
+          <form class="d-grid gap-2" method="POST" action="../database/ProcessInteractions.php">
+            <input type="hidden" name="targetUserId" value="<?php echo $displayUserId; ?>">
+            <input type="hidden" name="likePage" value="profile">
+            <button type="submit" class="btn btn-danger" name="likeSubmit" value="like"> 
+              <img src="../assets/icon/balloon-heart-fill.svg" width="18" height="18">
             </button>
-          <?php elseif (isset($matched["targetUserId"])): ?>
-            <a 
-              href="Message.php?messageUserId=<?php echo $matched["targetUserId"]; ?>" 
-              class="btn btn-outline-success" type="button"
-            >
-              メッセージを送る
-            </a>
-          <?php else: ?>
-            <form class="d-grid gap-2" method="POST" action="../database/ProcessInteractions.php">
-              <input type="hidden" name="targetUserId" value="<?php echo $displayUserId; ?>">
-              <input type="hidden" name="likePage" value="profile">
-              <button type="submit" class="btn btn-danger" name="likeSubmit" value="like"> 
-                <img src="../assets/icon/balloon-heart-fill.svg" width="18" height="18">
-              </button>
-            </form>
+          </form>
+          <?php elseif (!empty($matched)): ?>
+          <a 
+            href="Message.php?messageUserId=<?php echo $matched["userId"]; ?>" 
+            class="btn btn-outline-success" type="button"
+          >
+            メッセージを送る
+          </a>
           <?php endif; ?>
           </div>
         </div>

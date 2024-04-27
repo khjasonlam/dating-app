@@ -65,22 +65,26 @@ $profileArray = [
 ];
 
 if ($displayUserId === $_GET["targetUserId"]) {
+  $checkLikedSql = 
+  "SELECT userId, targetUserId FROM User_Interactions 
+  WHERE userId = ? AND targetUserId = ? AND interactionType = 'like'";
   try {
-    $SelectMatchedProfileId = 
-      "SELECT i1.userId, i1.targetUserId FROM User_Interactions i1
-      INNER JOIN User_Interactions i2 ON i1.userId = i2.targetUserId
-      WHERE i1.userId = ? AND i1.targetUserId = ? 
-      AND i2.userId = ? AND i2.targetUserId = ?";
-      $stmt = $conn->prepare($SelectMatchedProfileId);
-      
-      $stmt->bindValue(1, getUserIdSession());
-      $stmt->bindValue(2, $displayUserId);
-      $stmt->bindValue(3, $displayUserId);
-      $stmt->bindValue(4, getUserIdSession());
+    $stmt = $conn->prepare($checkLikedSql);
+    $stmt->bindValue(1, getUserIdSession());
+    $stmt->bindValue(2, $displayUserId);
+    $stmt->execute();
+    
+    $liked = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($liked) {
+      $stmt = $conn->prepare($checkLikedSql);
+      $stmt->bindValue(1, $displayUserId);
+      $stmt->bindValue(2, getUserIdSession());
       $stmt->execute();
       
       $matched = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
   } catch (PDOException $e) {
-    setErrorMessage("Error:" . $e->getMessage());
+    setErrorMessage("Error" . $e->getMessage());
   }
 }
