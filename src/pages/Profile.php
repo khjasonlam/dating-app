@@ -10,9 +10,9 @@
   </head>
   <body>
     <?php
-      include_once("../components/CommonTools.php");
-      include_once("../components/CheckInput.php");
-      include_once("../database/SelectProfileItem.php");
+    include_once("../components/CheckInput.php");
+    include_once("../database/SelectProfileItem.php");
+    include_once("../components/CommonTools.php");
     ?>
     <div class="container p-4 bg-light">
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>
@@ -38,22 +38,32 @@
             >
               メッセージを送る
             </a>
+          <?php else: ?>
+            <form class="d-grid gap-2" method="POST" action="../database/ProcessInteractions.php">
+              <input type="hidden" name="targetUserId" value="<?php echo $displayUserId; ?>">
+              <input type="hidden" name="likePage" value="profile">
+              <button type="submit" class="btn btn-danger" name="likeSubmit" value="like"> 
+                <img src="../assets/icon/balloon-heart-fill.svg" width="18" height="18">
+              </button>
+            </form>
           <?php endif; ?>
           </div>
         </div>
         <div class="col-md-6 p-4 card" style="height: 80vh; overflow-y: auto;">
           <div class="mb-3 h1 strong"><?php echo $username; ?></div>
           <?php
-            foreach ($profileArray as $key => $value) {
-              echo 
-                "<div class='hstack py-2'>
+          foreach ($profileArray as $key => $value) {
+            echo 
+              "<div class='hstack py-2'>
                 <div class='p-2 h5 strong' style='min-width: 25%;'>$key</div>
                 <div class='vr'></div>
-                <div class='p-2 mx-2'>$value</div></div>";
-            }
+                <div class='p-2 mx-2'>$value</div>
+              </div>";
+          }
           ?>
         </div>
       </div>
     </div>
+    <script src="../assets/js/MatchedSuccess.js"></script>
   </body>
 </html>
