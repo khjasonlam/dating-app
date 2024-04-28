@@ -46,7 +46,7 @@ if (isset($_POST['logoutSubmit'])) {
         <form method="POST" action="<?php $_SERVER["SCRIPT_NAME"];?>">
           <input type="hidden" name="logoutSubmit">
             <i 
-              class="bi-box-arrow-in-right text-light" 
+              class="bi-box-arrow-right text-light" 
               onclick="this.parentNode.submit()" 
               style="cursor: pointer; font-size: 35px;"
             ></i>
