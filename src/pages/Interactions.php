@@ -42,14 +42,26 @@
                 <p class="card-text">
                   <?php echo "$gender ($age)"; ?>
                 </p>
-                <form class="d-grid gap-2" method="POST" action="../database/ProcessInteractions.php">
-                  <input type="hidden" name="targetUserId" value="<?php echo $targetUserId; ?>">
+                <form 
+                  class="d-grid gap-2" method="POST" 
+                  action="../database/ProcessInteractions.php"
+                >
+                  <input 
+                    type="hidden" name="targetUserId" 
+                    value="<?php echo $targetUserId; ?>"
+                  >
                   <input type="hidden" name="likePage" value="interactions">
-                  <button type="submit" class="btn btn-outline-success" name="likeSubmit" value="like"> 
-                    <i class="bi-heart-fill" style="font-size: 25px;"></i>
+                  <button 
+                    type="submit" class="btn btn-success" 
+                    name="likeSubmit" value="like"
+                  > 
+                    <i class="bi-heart-fill" style="font-size: 16px;"></i>
                   </button>
-                  <button type="submit" class="btn btn-outline-danger" name="dislikeSubmit" value="dislike"> 
-                    <i class="bi-heartbreak-fill" style="font-size: 25px;"></i>
+                  <button 
+                    type="submit" class="btn btn-danger" 
+                    name="dislikeSubmit" value="dislike"
+                  > 
+                    <i class="bi-heartbreak-fill" style="font-size: 16px;"></i>
                   </button>
                 </form>
               </div>

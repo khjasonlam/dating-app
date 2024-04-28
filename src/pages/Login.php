@@ -33,7 +33,12 @@
           >
         </div>
         <div class="col-md-6 d-grid">
-          <button type="submit" class="btn btn-info btn-lg" name="loginSubmit">ログイン</button>
+          <button 
+            type="submit" class="btn btn-primary btn-lg" 
+            name="loginSubmit"
+          >
+            ログイン
+          </button>
         </div>
         <div class="col-md-6 d-grid">
           <a type="button" href='Register.php' class="btn btn-dark btn-lg">新規登録</a>

@@ -73,21 +73,25 @@
         class="container fixed-bottom bg-info-subtle rounded p-4" 
         method="POST" action="../database/ProcessMessage.php"
       >
-        <input type="hidden" name="loginUserId" value="<?php echo getUserIdSession(); ?>">
-        <input type="hidden" name="messageUserId" value="<?php echo $messageUserId; ?>">
-        <div class="row mx-1">
+        <input 
+          type="hidden" name="loginUserId" 
+          value="<?php echo getUserIdSession(); ?>"
+        >
+        <input 
+          type="hidden" name="messageUserId" 
+          value="<?php echo $messageUserId; ?>"
+        >
+        <div class="input-group">
           <input 
-            type="text" class="form-control form-control-lg col" 
-            name="message" placeholder="メッセージを入力してくだい"
+            type="text" class="form-control" name="message" 
+            placeholder="メッセージを入力してくだい"
           >
-          <div class="col-auto">
-            <button 
-              type="submit" name="sendMessage" value="sent" 
-              class="btn btn-primary btn-lg"
-            >
-              送る
-            </button>
-          </div>
+          <button 
+            type="submit" name="sendMessage" 
+            value="sent" class="btn btn-primary"
+          >
+            <i class="bi bi-send-fill" style="font-size: 25px;"></i>
+          </button>
         </div>
       </form>
     </div>
