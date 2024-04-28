@@ -45,8 +45,11 @@
                 <form class="d-grid gap-2" method="POST" action="../database/ProcessInteractions.php">
                   <input type="hidden" name="targetUserId" value="<?php echo $targetUserId; ?>">
                   <input type="hidden" name="likePage" value="interactions">
-                  <button type="submit" class="btn btn-danger" name="likeSubmit" value="like"> 
-                    <img src="../assets/icon/balloon-heart-fill.svg" width="32" height="32" class="m-1">
+                  <button type="submit" class="btn btn-outline-success" name="likeSubmit" value="like"> 
+                    <i class="bi-heart-fill" style="font-size: 25px;"></i>
+                  </button>
+                  <button type="submit" class="btn btn-outline-danger" name="dislikeSubmit" value="dislike"> 
+                    <i class="bi-heartbreak-fill" style="font-size: 25px;"></i>
                   </button>
                 </form>
               </div>
