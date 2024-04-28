@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>DATING APP | LOGIN PAGE</title>
     <link rel="icon" href="../assets/icon/calendar-heart-fill.svg">
-    <link rel="stylesheet" href="../assets/css/Style.css">
+    <link rel="stylesheet" href="../assets/css/Stylesheet.css">
   </head>
   <body>
     <?php
