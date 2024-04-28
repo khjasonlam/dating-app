@@ -8,13 +8,13 @@
     <link rel="icon" href="../assets/icon/calendar-heart-fill.svg">
     <link rel="stylesheet" href="../assets/css/Stylesheet.css">
   </head>
-  <body>
+  <body class="bg-info-subtle">
     <?php
     include_once("../components/CheckInput.php");
     include_once("../database/SelectProfileItem.php");
     include_once("../components/CommonTools.php");
     ?>
-    <div class="container p-4 bg-light">
+    <div class="container p-4 bg-info-subtle">
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>
       <div class="row mx-3">
         <div class="col-md-6 text-center">

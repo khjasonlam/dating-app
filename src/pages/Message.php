@@ -8,7 +8,7 @@
     <link rel="icon" href="../assets/icon/calendar-heart-fill.svg">
     <link rel="stylesheet" href="../assets/css/Stylesheet.css">
   </head>
-  <body>
+  <body class="bg-info-subtle">
     <?php
     include_once("../components/CheckInput.php");
     include_once("../database/SelectProfileItem.php");
@@ -34,8 +34,8 @@
         </div>";
     }
     ?>
-    <div class="container p-4 bg-light">
-    <div class="card mb-3" style="height: 70vh;">
+    <div class="container p-4 bg-info-subtle">
+    <div class="card" style="height: 74vh;">
       <div class="card-header">
         <div class="row">
           <div class="col-2 h5 py-1 m-0">
@@ -70,7 +70,7 @@
         }
         ?>
       <form 
-        class="container fixed-bottom bg-light p-4 rounded" 
+        class="container fixed-bottom bg-info-subtle rounded p-4" 
         method="POST" action="../database/ProcessMessage.php"
       >
         <input type="hidden" name="loginUserId" value="<?php echo getUserIdSession(); ?>">

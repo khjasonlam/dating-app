@@ -8,12 +8,12 @@
     <link rel="icon" href="../assets/icon/calendar-heart-fill.svg">
     <link rel="stylesheet" href="../assets/css/Stylesheet.css">
   </head>
-  <body>
+  <body class="bg-info-subtle">
     <?php
     include_once("../components/CheckInput.php");
     include_once("../components/CommonTools.php");
     ?>
-    <div class="container p-4 bg-light">
+    <div class="container p-4 bg-info-subtle">
       <form class="row g-4" method="POST" action="../database/ProcessRegister.php">
         <!-- username -->
         <div class="col-md-6">
