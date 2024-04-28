@@ -7,9 +7,10 @@ $loginUserId = getUserIdSession();
 try {
   $conn->beginTransaction();
   
-  $deleteMessage = "DELETE FROM Messages WHERE senderId = ?";  
+  $deleteMessage = "DELETE FROM Messages WHERE senderId = ? OR receiverId = ?";  
   $stmt = $conn->prepare($deleteMessage);
   $stmt->bindValue(1, $loginUserId);
+  $stmt->bindValue(2, $loginUserId);
   $stmt->execute();
   
   $deleteInteractions = "DELETE FROM User_Interactions WHERE userId = ? OR targetUserId = ?";
