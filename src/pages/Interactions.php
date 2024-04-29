@@ -27,7 +27,7 @@
           $pictureContents = $users['pictureContents'];
         ?>
           <div class="col">
-            <div class="card h-100 mx-1 text-center">
+            <div class="card h-100 text-center">
               <a href="Profile.php?targetUserId=<?php echo $targetUserId; ?>">
                 <img 
                   <?php echo "src='data: $pictureType; base64, $pictureContents'"; ?>

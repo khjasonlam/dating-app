@@ -28,7 +28,7 @@
         <form method="GET" action="Message.php">
           <input type="hidden" name="messageUserId" value="<?php echo $targetUserId;?>">
           <div 
-            class="card mb-3 mx-3 w-auto" 
+            class="card mb-2" 
             onclick="this.parentNode.submit()" 
             style="cursor: pointer;"
           >

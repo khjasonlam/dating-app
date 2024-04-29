@@ -20,7 +20,7 @@ if (isset($_POST['logoutSubmit'])) {
 
 ?>
 <script src="../assets/js/MatchedSuccess.js"></script>
-<div class="sticky-top container-fluid bg-info">
+<div class="sticky-top container-fluid bg-info p-2">
   <div class="row justify-content-around">
     <div class="col-auto m-0">
       <i class="bi-calendar-heart-fill text-light" style="font-size: 35px;"></i>
