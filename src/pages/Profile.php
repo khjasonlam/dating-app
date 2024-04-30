@@ -17,10 +17,10 @@
     <div class="container p-4 bg-info-subtle">
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>
       <div class="row mx-3">
-        <div class="col-md-6 text-center">
+        <div class="col-md-6 p-4 card" style="height: 80vh;">
           <img 
             <?php echo "src='data: $pictureType; base64, $pictureContents'"; ?> 
-            alt="profile_picture" class="object-fit-scale border rounded mx-4 bg-light" 
+            alt="profile_picture" class="object-fit-scale border rounded m-auto" 
             height="auto" width="auto" style="max-width: 300px;"
           >
           <div class="d-grid gap-2 col-8 mx-auto my-3">
