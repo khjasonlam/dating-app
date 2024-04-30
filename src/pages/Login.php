@@ -6,14 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>DATING APP | LOGIN PAGE</title>
     <link rel="icon" href="../assets/icon/calendar-heart-fill.svg">
-    <link rel="stylesheet" href="../assets/css/Style.css">
+    <link rel="stylesheet" href="../assets/css/Stylesheet.css">
   </head>
-  <body>
+  <body class="bg-info-subtle">
     <?php
     include_once("../components/CheckInput.php");
     include_once("../components/CommonTools.php");
     ?>
-    <div class="container p-5 bg-light">
+    <div class="container p-4 bg-info-subtle">
       <form 
         method="POST" class="row g-4 mx-3" 
         action="../database/ProcessLogin.php"
@@ -33,7 +33,12 @@
           >
         </div>
         <div class="col-md-6 d-grid">
-          <button type="submit" class="btn btn-info btn-lg" name="loginSubmit">ログイン</button>
+          <button 
+            type="submit" class="btn btn-primary btn-lg" 
+            name="loginSubmit"
+          >
+            ログイン
+          </button>
         </div>
         <div class="col-md-6 d-grid">
           <a type="button" href='Register.php' class="btn btn-dark btn-lg">新規登録</a>

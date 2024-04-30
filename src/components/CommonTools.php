@@ -7,9 +7,9 @@ $menubar = [
 
 function checkActivePage($directory) {
   if ($directory === $_SERVER["SCRIPT_NAME"]) {
-    $mode = "btn btn-outline-dark active";
+    $mode = "btn btn-outline-light active mt-2";
   } else {
-    $mode = "btn btn-outline-dark";
+    $mode = "btn btn-outline-light mt-2";
   }
   return $mode;
 }
@@ -20,13 +20,10 @@ if (isset($_POST['logoutSubmit'])) {
 
 ?>
 <script src="../assets/js/MatchedSuccess.js"></script>
-<div class="sticky-top container-fluid bg-warning py-3">
-  <div class="row g-2">
-    <div class="col-2">
-      <img 
-        src="../assets/icon/calendar-heart-fill.svg" 
-        width="40" height="40" class="mx-5"
-      >
+<div class="sticky-top container-fluid bg-info p-2">
+  <div class="row justify-content-around">
+    <div class="col-auto m-0">
+      <i class="bi-calendar-heart-fill text-light" style="font-size: 35px;"></i>
     </div>
     <?php 
     $showMenubar = 
@@ -34,7 +31,7 @@ if (isset($_POST['logoutSubmit'])) {
       $_SERVER["SCRIPT_NAME"] !== "/dating-app/src/pages/Register.php";
     if ($showMenubar):
     ?>
-      <div class="col-8">
+      <div class="col-9 m-0">
         <div class="btn-group container">
           <?php 
           include_once("../database/LoginStatus.php");
@@ -45,17 +42,15 @@ if (isset($_POST['logoutSubmit'])) {
           ?>
         </div>
       </div>
-      <div class="col-2">
-        <div class="btn-group container justify-content-end">
-          <form method="POST" action="<?php $_SERVER["SCRIPT_NAME"];?>">
-            <button type="submit" name="logoutSubmit" class="btn btn-link p-0">
-              <img 
-                src="../assets/icon/box-arrow-in-right.svg" 
-                width="40" height="40" class="mx-5"
-              >
-            </button>
-          </form>
-        </div>
+      <div class="col-auto m-0">
+        <form method="POST" action="<?php $_SERVER["SCRIPT_NAME"];?>">
+          <input type="hidden" name="logoutSubmit">
+            <i 
+              class="bi-box-arrow-right text-light" 
+              onclick="this.parentNode.submit()" 
+              style="cursor: pointer; font-size: 35px;"
+            ></i>
+        </form>
       </div>
     <?php endif; ?>
   </div>
@@ -64,12 +59,12 @@ if (isset($_POST['logoutSubmit'])) {
 $isMatched = getMatchedUserSession();
 if (isset($isMatched)):
 ?>
-<div class='z-3 bg-danger position-absolute w-100 h-100' id='success'>
-  <div class="position-absolute text-center top-50 start-50 translate-middle fs-1">
-    <img 
-      src="../assets/icon/arrow-through-heart-fill.svg" 
-      width="200" height="200"
-    >
+<div class="z-3 bg-danger-subtle position-absolute w-100 h-100" id="success">
+  <div 
+    class="position-absolute text-center text-danger 
+    top-50 start-50 translate-middle fs-1"
+  >
+    <i class="bi-arrow-through-heart-fill" style="font-size: 200px;"></i>
     <br>
     マッチしました
   </div>

@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>DATING APP | LIKE</title>
     <link rel="icon" href="../assets/icon/calendar-heart-fill.svg">
-    <link rel="stylesheet" href="../assets/css/Style.css">
+    <link rel="stylesheet" href="../assets/css/Stylesheet.css">
   </head>
-  <body>
+  <body class="bg-info-subtle">
     <?php
     include_once("../components/CheckInput.php");
     include_once("../database/SelectInteractions.php");
     include_once("../components/CommonTools.php");
     ?>
-    <div class="container p-4 bg-light">
+    <div class="container p-4 bg-info-subtle">
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>
       <div class="row row-cols-1 row-cols-md-3 g-3">
         <?php 
@@ -27,7 +27,7 @@
           $pictureContents = $users['pictureContents'];
         ?>
           <div class="col">
-            <div class="card h-100 mx-1 text-center">
+            <div class="card h-100 text-center">
               <a href="Profile.php?targetUserId=<?php echo $targetUserId; ?>">
                 <img 
                   <?php echo "src='data: $pictureType; base64, $pictureContents'"; ?>
@@ -42,11 +42,26 @@
                 <p class="card-text">
                   <?php echo "$gender ($age)"; ?>
                 </p>
-                <form class="d-grid gap-2" method="POST" action="../database/ProcessInteractions.php">
-                  <input type="hidden" name="targetUserId" value="<?php echo $targetUserId; ?>">
+                <form 
+                  class="d-grid gap-2" method="POST" 
+                  action="../database/ProcessInteractions.php"
+                >
+                  <input 
+                    type="hidden" name="targetUserId" 
+                    value="<?php echo $targetUserId; ?>"
+                  >
                   <input type="hidden" name="likePage" value="interactions">
-                  <button type="submit" class="btn btn-danger" name="likeSubmit" value="like"> 
-                    <img src="../assets/icon/balloon-heart-fill.svg" width="32" height="32" class="m-1">
+                  <button 
+                    type="submit" class="btn btn-success" 
+                    name="likeSubmit" value="like"
+                  > 
+                    <i class="bi-heart-fill" style="font-size: 16px;"></i>
+                  </button>
+                  <button 
+                    type="submit" class="btn btn-danger" 
+                    name="dislikeSubmit" value="dislike"
+                  > 
+                    <i class="bi-heartbreak-fill" style="font-size: 16px;"></i>
                   </button>
                 </form>
               </div>

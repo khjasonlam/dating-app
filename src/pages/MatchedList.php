@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>DATING APP | MATCHED LIST</title>
     <link rel="icon" href="../assets/icon/calendar-heart-fill.svg">
-    <link rel="stylesheet" href="../assets/css/Style.css">
+    <link rel="stylesheet" href="../assets/css/Stylesheet.css">
   </head>
-  <body>
+  <body class="bg-info-subtle">
     <?php
     include_once("../components/CheckInput.php");
     include_once("../database/SelectMatchedList.php");
     include_once("../components/CommonTools.php");
     ?>
-    <div class="container p-4 bg-light">
+    <div class="container p-4 bg-info-subtle">
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>
       <?php 
       foreach ($result as $users):
@@ -28,7 +28,7 @@
         <form method="GET" action="Message.php">
           <input type="hidden" name="messageUserId" value="<?php echo $targetUserId;?>">
           <div 
-            class="card mb-3 mx-3 w-auto" 
+            class="card mb-2" 
             onclick="this.parentNode.submit()" 
             style="cursor: pointer;"
           >

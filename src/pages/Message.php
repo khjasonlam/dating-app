@@ -6,9 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>DATING APP | MESSAGE</title>
     <link rel="icon" href="../assets/icon/calendar-heart-fill.svg">
-    <link rel="stylesheet" href="../assets/css/Style.css">
+    <link rel="stylesheet" href="../assets/css/Stylesheet.css">
   </head>
-  <body>
+  <body class="bg-info-subtle">
     <?php
     include_once("../components/CheckInput.php");
     include_once("../database/SelectProfileItem.php");
@@ -34,8 +34,8 @@
         </div>";
     }
     ?>
-    <div class="container p-4 bg-light">
-    <div class="card mb-3" style="height: 70vh;">
+    <div class="container p-4 bg-info-subtle">
+    <div class="card" style="height: 74vh;">
       <div class="card-header">
         <div class="row">
           <div class="col-2 h5 py-1 m-0">
@@ -70,24 +70,28 @@
         }
         ?>
       <form 
-        class="container fixed-bottom bg-light p-4 rounded" 
+        class="container fixed-bottom bg-info-subtle rounded p-4" 
         method="POST" action="../database/ProcessMessage.php"
       >
-        <input type="hidden" name="loginUserId" value="<?php echo getUserIdSession(); ?>">
-        <input type="hidden" name="messageUserId" value="<?php echo $messageUserId; ?>">
-        <div class="row mx-1">
+        <input 
+          type="hidden" name="loginUserId" 
+          value="<?php echo getUserIdSession(); ?>"
+        >
+        <input 
+          type="hidden" name="messageUserId" 
+          value="<?php echo $messageUserId; ?>"
+        >
+        <div class="input-group">
           <input 
-            type="text" class="form-control form-control-lg col" 
-            name="message" placeholder="メッセージを入力してくだい"
+            type="text" class="form-control" name="message" 
+            placeholder="メッセージを入力してくだい"
           >
-          <div class="col-auto">
-            <button 
-              type="submit" name="sendMessage" value="sent" 
-              class="btn btn-primary btn-lg"
-            >
-              送る
-            </button>
-          </div>
+          <button 
+            type="submit" name="sendMessage" 
+            value="sent" class="btn btn-primary"
+          >
+            <i class="bi bi-send-fill" style="font-size: 25px;"></i>
+          </button>
         </div>
       </form>
     </div>

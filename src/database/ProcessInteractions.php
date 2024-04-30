@@ -2,11 +2,13 @@
 include_once("Pdo.php");
 include_once("../components/CheckInput.php");
 
-if (isset($_POST["likeSubmit"])) {
-  $loginUserId = getUserIdSession();
-  $targetUserId = $_POST["targetUserId"];
-  $likeSubmit = $_POST["likeSubmit"];
-  try {
+$loginUserId = getUserIdSession();
+$targetUserId = $_POST["targetUserId"];
+$likeSubmit = $_POST["likeSubmit"];
+$dislikeSubmit = $_POST["dislikeSubmit"];
+
+try {
+  if (isset($likeSubmit)) {
     $likeSql = 
       "INSERT INTO User_Interactions (userId, targetUserId, interactionType)
       VALUES (?, ?, ?)";
@@ -33,13 +35,24 @@ if (isset($_POST["likeSubmit"])) {
         setMatchedUserSession($targetUserId);
       }
     } 
-  } catch (PDOException $e) {
-    setErrorMessage("DB error: " . $e->getMessage());
+  } elseif ($dislikeSubmit) {
+    $dislikeSql = 
+      "INSERT INTO User_Interactions (userId, targetUserId, interactionType)
+      VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($dislikeSql);
+    
+    $stmt->bindValue(1, $loginUserId);
+    $stmt->bindValue(2, $targetUserId);
+    $stmt->bindValue(3, $dislikeSubmit);
+    $result = $stmt->execute();
   }
-  if ($_POST["likePage"] === "profile") {
-    header("Location: ../pages/Profile.php?targetUserId=".$targetUserId);
-  } else {
-    header("Location: ../pages/Interactions.php");
-  }
-  exit();
+} catch (PDOException $e) {
+  setErrorMessage("DB登録失敗しました: " . $e->getMessage());
 }
+
+if ($_POST["likePage"] === "profile") {
+  header("Location: ../pages/Profile.php?targetUserId=".$targetUserId);
+} elseif ($_POST["likePage"] === "interactions") {
+  header("Location: ../pages/Interactions.php");
+}
+exit();

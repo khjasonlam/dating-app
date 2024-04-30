@@ -6,46 +6,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>DATING APP | PROFILE</title>
     <link rel="icon" href="../assets/icon/calendar-heart-fill.svg">
-    <link rel="stylesheet" href="../assets/css/Style.css">
+    <link rel="stylesheet" href="../assets/css/Stylesheet.css">
   </head>
-  <body>
+  <body class="bg-info-subtle">
     <?php
     include_once("../components/CheckInput.php");
     include_once("../database/SelectProfileItem.php");
     include_once("../components/CommonTools.php");
     ?>
-    <div class="container p-4 bg-light">
+    <div class="container p-4 bg-info-subtle">
       <div class="text-center text-danger"><?php displayErrorMessage();?></div>
       <div class="row mx-3">
         <div class="col-md-6 text-center">
           <img 
             <?php echo "src='data: $pictureType; base64, $pictureContents'"; ?> 
-            alt="profile_picture" class="object-fit-scale border rounded mx-4" 
+            alt="profile_picture" class="object-fit-scale border rounded mx-4 bg-light" 
             height="auto" width="auto" style="max-width: 300px;"
           >
-          <div class="d-grid gap-2 col-9 mx-auto my-3">
+          <div class="d-grid gap-2 col-8 mx-auto my-3">
           <?php if ($displayUserId === getUserIdSession()): ?>
-          <a href="EditProfile.php" class="btn btn-outline-dark" type="button">
-            プロフィール編集
-          </a>
-          <a href="../database/DeleteAccount.php" class="btn btn-outline-danger" type="button">
-            アカウント削除
-          </a>
+            <a href="EditProfile.php" class="btn btn-secondary" type="button">
+              <i class="bi-pencil-fill" style="font-size: 16px;"></i>
+              プロフィール編集
+            </a>
+            <a href="../database/DeleteAccount.php" class="btn btn-danger" type="button">
+              <i class="bi-person-x-fill" style="font-size: 16px;"></i>
+              アカウント削除
+            </a>
           <?php elseif (empty($liked)): ?>
-          <form class="d-grid gap-2" method="POST" action="../database/ProcessInteractions.php">
-            <input type="hidden" name="targetUserId" value="<?php echo $displayUserId; ?>">
-            <input type="hidden" name="likePage" value="profile">
-            <button type="submit" class="btn btn-danger" name="likeSubmit" value="like"> 
-              <img src="../assets/icon/balloon-heart-fill.svg" width="18" height="18">
-            </button>
-          </form>
+            <form class="d-grid gap-2" method="POST" action="../database/ProcessInteractions.php">
+              <input type="hidden" name="targetUserId" value="<?php echo $displayUserId; ?>">
+              <input type="hidden" name="likePage" value="profile">
+              <button type="submit" class="btn btn-success" name="likeSubmit" value="like"> 
+                <i class="bi-heart-fill" style="font-size: 16px;"></i>
+              </button>
+              <button type="submit" class="btn btn-danger" name="dislikeSubmit" value="dislike"> 
+                <i class="bi-heartbreak-fill" style="font-size: 16px;"></i>
+              </button>
+            </form>
           <?php elseif (!empty($matched)): ?>
-          <a 
-            href="Message.php?messageUserId=<?php echo $matched["userId"]; ?>" 
-            class="btn btn-outline-success" type="button"
-          >
-            メッセージを送る
-          </a>
+            <a 
+              href="Message.php?messageUserId=<?php echo $matched["userId"]; ?>" 
+              class="btn btn-primary" type="button"
+            >
+            <i class="bi-chat-fill" style="font-size: 16px;"></i>
+              メッセージを送る
+            </a>
           <?php endif; ?>
           </div>
         </div>

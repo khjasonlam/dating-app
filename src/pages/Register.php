@@ -6,14 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>DATING APP | REGISTER PAGE</title>
     <link rel="icon" href="../assets/icon/calendar-heart-fill.svg">
-    <link rel="stylesheet" href="../assets/css/Style.css">
+    <link rel="stylesheet" href="../assets/css/Stylesheet.css">
   </head>
-  <body>
+  <body class="bg-info-subtle">
     <?php
     include_once("../components/CheckInput.php");
     include_once("../components/CommonTools.php");
     ?>
-    <div class="container p-4 bg-light">
+    <div class="container p-4 bg-info-subtle">
       <form class="row g-4" method="POST" action="../database/ProcessRegister.php">
         <!-- username -->
         <div class="col-md-6">
@@ -39,16 +39,8 @@
             name="username" placeholder="名前を入力してくだい"
           >
         </div>
-        <!-- profile picture -->
-        <div class="col-md-5">
-          <label for="profilePicture" class="form-label">プロフィール写真</label>
-          <input 
-            type="file" class="form-control form-control-lg" 
-            name="profilePicture" id="profilePicture"
-          >
-        </div>
         <!-- age -->
-        <div class="col-md-3">
+        <div class="col-md-6">
           <label for="age" class="form-label">年齢</label>
           <select class="form-select form-select-lg" name="age">
             <option selected>年齢を選択してください</option>
@@ -61,7 +53,7 @@
           </select>
         </div>
         <!-- gender -->
-        <div class="col-md-4">
+        <div class="col-md-6">
           <label for="gender" class="form-label">性別</label>
           <div class="form-check px-0">
             <div class="row g-2">
@@ -76,17 +68,25 @@
             </div>
           </div>
         </div>
+        <!-- profile picture -->
+        <div class="col-md-12">
+          <label for="profilePicture" class="form-label">プロフィール写真</label>
+          <input 
+            type="file" class="form-control form-control-lg" 
+            name="profilePicture" id="profilePicture"
+          >
+        </div>
         <!-- submit -->
         <div class="col-md-6 d-grid">
           <input 
-            type="submit" class="btn btn-outline-info btn-lg my-2" 
+            type="submit" class="btn btn-info btn-lg my-2" 
             value="登録する" name="registerSubmit"
             formenctype="multipart/form-data"
           >
         </div>
         <!-- back to login page -->
         <div class="col-md-6 d-grid">
-          <a type="button" href='Login.php' class="btn btn-outline-dark btn-lg my-2">
+          <a type="button" href='Login.php' class="btn btn-dark btn-lg my-2">
             ログイン画面に戻る
           </a>
         </div>
