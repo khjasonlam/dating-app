@@ -69,7 +69,7 @@
           </div>
         </div>
         <!-- profile picture -->
-        <div class="col-md-12">
+        <div class="col-md-12 mb-3">
           <label for="profilePicture" class="form-label">プロフィール写真</label>
           <input 
             type="file" class="form-control form-control-lg" 

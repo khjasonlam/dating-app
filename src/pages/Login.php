@@ -25,22 +25,17 @@
               name="loginId" placeholder="ログインIDを入力してください"
             >
         </div>
-        <div class="col-12">
+        <div class="col-12 mb-3">
           <label for="password" class="form-label">パスワード</label>
           <input 
             type="password" class="form-control form-control-lg" 
             name="password" placeholder="パスワードを入力してください"
           >
         </div>
-        <div class="col-md-6 d-grid">
-          <button 
-            type="submit" class="btn btn-primary btn-lg" 
-            name="loginSubmit"
-          >
+        <div class="col-6 d-grid gap-3 mx-auto">
+          <button type="submit" class="btn btn-primary btn-lg" name="loginSubmit">
             ログイン
           </button>
-        </div>
-        <div class="col-md-6 d-grid">
           <a type="button" href='Register.php' class="btn btn-dark btn-lg">新規登録</a>
         </div>
         <div class="col-12 text-center text-danger"><?php displayErrorMessage();?></div>
