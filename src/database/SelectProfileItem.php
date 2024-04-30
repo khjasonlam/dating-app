@@ -3,7 +3,12 @@ include_once("Pdo.php");
 include_once("../components/CheckInput.php");
 
 if (isset($_GET["targetUserId"])) {
-  $displayUserId = $_GET["targetUserId"];
+  if ($_GET["targetUserId"] == getUserIdSession()) {
+    header("Location: ../pages/Profile.php");
+    exit();
+  } else {
+    $displayUserId = $_GET["targetUserId"];
+  }
 } else if (isset($_GET["messageUserId"])) {
   $displayUserId = $_GET["messageUserId"];
 } else {
