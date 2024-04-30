@@ -5,16 +5,9 @@
 └── src
     ├── assets
     │   ├── css
-    │   │   └── style.css
+    │   │   └── Stylesheet.css
     │   ├── icon
-    │   │   ├── arrow-through-heart-fill.svg
-    │   │   ├── balloon-heart-fill.svg
-    │   │   ├── box-arrow-in-right.svg
-    │   │   ├── calendar-heart-fill.svg
-    │   │   ├── pencil-fill.svg
-    │   │   ├── pencil-square.svg
-    │   │   ├── people-fill.svg
-    │   │   └── person-x.svg
+    │   │   └── calendar-heart-fill.svg
     │   └── js
     │       └── MatchedSuccess.js
     ├── components
