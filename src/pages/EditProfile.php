@@ -53,21 +53,17 @@
         <div class="col-md-4">
           <label for="gender" class="form-label">性別</label>
           <div class="form-check px-0">
-            <div class="row">
-              <div class="col-6 col-md-6 d-grid">
-                <input 
-                  type="radio" class="btn-check" name="gender" id="male" value="男"
-                  <?php if ($result['gender'] === "男") echo "checked";?>
-                >
-                <label class="btn btn-outline-dark btn-lg px-5" for="male">男</label>
-              </div>
-              <div class="col-6 col-md-6 d-grid">
-                <input 
-                  type="radio" class="btn-check" name="gender" id="female" value="女"
-                  <?php if ($result['gender'] === "女") echo "checked";?>
-                >
-                <label class="btn btn-outline-dark btn-lg px-5" for="female">女</label>
-              </div>
+            <div class="btn-group btn-group-lg container px-0">
+              <input 
+                type="radio" class="btn-check" name="gender" id="male" value="男"
+                <?php if ($result['gender'] === "男") echo "checked";?>
+              >
+              <label class="btn btn-outline-dark" for="male">男</label>
+              <input 
+                type="radio" class="btn-check" name="gender" id="female" value="女"
+                <?php if ($result['gender'] === "女") echo "checked";?>
+              >
+              <label class="btn btn-outline-dark" for="female">女</label>
             </div>
           </div>
         </div>
