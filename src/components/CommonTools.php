@@ -20,7 +20,7 @@ if (isset($_POST['logoutSubmit'])) {
 
 ?>
 <script src="../assets/js/MatchedSuccess.js"></script>
-<div class="sticky-top container-fluid bg-info p-2">
+<header class="sticky-top container-fluid bg-info p-2">
   <div class="row justify-content-around">
     <div class="col-auto m-0">
       <i class="bi-calendar-heart-fill text-light" style="font-size: 35px;"></i>
@@ -31,7 +31,7 @@ if (isset($_POST['logoutSubmit'])) {
       $_SERVER["SCRIPT_NAME"] !== "/dating-app/src/pages/Register.php";
     if ($showMenubar):
     ?>
-      <div class="col-9 m-0">
+      <nav class="col-9 m-0">
         <div class="btn-group container">
           <?php 
           include_once("../database/LoginStatus.php");
@@ -41,7 +41,7 @@ if (isset($_POST['logoutSubmit'])) {
           }
           ?>
         </div>
-      </div>
+      </nav>
       <div class="col-auto m-0">
         <form method="POST" action="<?php $_SERVER["SCRIPT_NAME"];?>">
           <input type="hidden" name="logoutSubmit">
@@ -54,7 +54,7 @@ if (isset($_POST['logoutSubmit'])) {
       </div>
     <?php endif; ?>
   </div>
-</div>
+</header>
 <?php 
 $isMatched = getMatchedUserSession();
 if (isset($isMatched)):
