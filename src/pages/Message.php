@@ -41,9 +41,7 @@
           <div class="col-2 h5 py-1 m-0">
             <a 
               href="MatchedList.php"
-              class=
-                "link-dark link-offset-2 link-offset-2-hover link-underline 
-                link-underline-opacity-0 link-underline-opacity-75-hover" 
+              class="link-dark link-underline link-underline-opacity-0" 
             >
               ＜戻る
             </a>
