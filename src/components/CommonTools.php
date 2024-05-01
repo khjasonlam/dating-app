@@ -6,7 +6,7 @@ $menubar = [
 ];
 
 function checkActivePage($directory) {
-  if ($directory === $_SERVER["SCRIPT_NAME"]) {
+  if ($directory === $_SERVER["SCRIPT_NAME"] && !isset($_GET["targetUserId"])) {
     $mode = "btn btn-outline-light active mt-2";
   } else {
     $mode = "btn btn-outline-light mt-2";
