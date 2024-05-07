@@ -6,10 +6,8 @@
     ├── assets
     │   ├── css
     │   │   └── Stylesheet.css
-    │   ├── icon
-    │   │   └── calendar-heart-fill.svg
-    │   └── js
-    │       └── MatchedSuccess.js
+    │   └── icon
+    │       └── calendar-heart-fill.svg
     ├── components
     │   ├── CheckInput.php
     │   └── CommonTools.php
@@ -26,6 +24,8 @@
     │   ├── SelectMessage.php
     │   ├── SelectProfileItem.php
     │   └── UpdateEditProfile.php
+    ├── js
+    │   └── MatchedSuccess.js
     └── pages
         ├── EditProfile.php
         ├── Interactions.php
