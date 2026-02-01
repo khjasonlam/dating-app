@@ -1,16 +1,33 @@
 <?php
-$host = 'localhost'; // Hostname
-$dbname = 'datingAppDB'; // Database name
-$dbUsername = 'jasonlam'; // Username
-$dbPassword = '971216'; // Password
+/**
+ * Database Connection Handler
+ * Uses configuration from root config.php file
+ */
+
+// Load configuration
+require_once(__DIR__ . '/../../config.php');
 
 try {
-  $conn = new PDO("mysql:host=$host;dbname=$dbname", $dbUsername, $dbPassword);
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+  $options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES => false,
+    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
+  ];
   
-  if ($_SERVER['SCRIPT_NAME'] === "/dating-app/src/database/Pdo.php") {
+  $conn = new PDO($dsn, DB_USER, DB_PASS, $options);
+  
+  // Only display connection message if accessed directly (for testing)
+  if (basename($_SERVER['SCRIPT_NAME']) === "Pdo.php" && DEBUG_MODE) {
     echo "Connected successfully";
   }
 } catch(PDOException $e) {
-  echo "Connection failed: " . $e->getMessage();
+  if (DEBUG_MODE) {
+    echo "Connection failed: " . $e->getMessage();
+  } else {
+    error_log("Database connection failed: " . $e->getMessage());
+    echo "Database connection error. Please contact administrator.";
+  }
+  exit;
 } 

@@ -3,13 +3,32 @@ include_once("Pdo.php");
 include_once("../components/CheckInput.php");
 
 if (isset($_POST["editProfileSubmit"])) {
-  $inputValue = !empty($_POST["username"]) && isset($_POST["gender"]) && 
-    ($_POST["age"] !== "年齢を選択していください");
+  $userId = requireLogin();
   
-  if ($inputValue) {
+  // Validate required fields
+  $username = testInputValue($_POST["username"] ?? '');
+  $age = testInputValue($_POST["age"] ?? '');
+  $gender = testInputValue($_POST["gender"] ?? '');
+  
+  $errors = [];
+  
+  if (empty($username)) {
+    $errors[] = "名前は必須です";
+  }
+  
+  if (empty($age) || $age === "年齢を選択してください" || !is_numeric($age) || $age < 18 || $age > 100) {
+    $errors[] = "有効な年齢を選択してください";
+  }
+  
+  if (empty($gender) || !in_array($gender, ['男', '女'])) {
+    $errors[] = "性別を選択してください";
+  }
+  
+  if (empty($errors)) {
     try {
       $conn->beginTransaction();
       
+      // Prepare update statement with explicit field order
       $updateProfileSql = 
         "UPDATE Users SET username = ?, age = ?, gender = ?,
         height = ?, weight = ?, bloodType = ?, location = ?, interests = ?,
@@ -17,26 +36,35 @@ if (isset($_POST["editProfileSubmit"])) {
         smokingHabits = ?, drinkingHabits = ? WHERE userId = ?";
       $stmt = $conn->prepare($updateProfileSql);
       
-      $count = 1;
-      foreach ($_POST as $postKey => $postValue) {
-        if ($postKey !== "editProfileSubmit" && $postKey !== "profilePicture") {
-          $postValue = testInputValue($postValue);
-          $stmt->bindValue($count, $postValue);
-          $count++;
-        }
-      }
+      // Bind values in correct order
+      $stmt->bindValue(1, $username);
+      $stmt->bindValue(2, (int)$age);
+      $stmt->bindValue(3, $gender);
+      $stmt->bindValue(4, testInputValue($_POST["height"] ?? null));
+      $stmt->bindValue(5, testInputValue($_POST["weight"] ?? null));
+      $stmt->bindValue(6, testInputValue($_POST["bloodType"] ?? null));
+      $stmt->bindValue(7, testInputValue($_POST["location"] ?? null));
+      $stmt->bindValue(8, testInputValue($_POST["interests"] ?? null));
+      $stmt->bindValue(9, testInputValue($_POST["description"] ?? null));
+      $stmt->bindValue(10, testInputValue($_POST["education"] ?? null));
+      $stmt->bindValue(11, testInputValue($_POST["occupation"] ?? null));
+      $stmt->bindValue(12, testInputValue($_POST["smokingHabits"] ?? null));
+      $stmt->bindValue(13, testInputValue($_POST["drinkingHabits"] ?? null));
+      $stmt->bindValue(14, $userId);
+      
       $stmt->execute();
       
-      $uploadPicture = is_uploaded_file($_FILES["profilePicture"]["tmp_name"]);
-      if ($uploadPicture) {
-        $pictureName = $_FILES["profilePicture"]["name"];
-        $pictureType = $_FILES["profilePicture"]["type"];
-        $pictureSize = $_FILES["profilePicture"]["size"];
-        $pictureTmpName = $_FILES["profilePicture"]["tmp_name"];
-        $pictureFile = file_get_contents($pictureTmpName);
-        $pictureContents = base64_encode($pictureFile);
+      // Handle profile picture update if uploaded
+      if (isset($_FILES["profilePicture"]) && $_FILES["profilePicture"]["error"] === UPLOAD_ERR_OK) {
+        $pictureValidation = validateImageFile($_FILES["profilePicture"]);
         
-        if ($pictureSize <= MAX_SIZE) {
+        if ($pictureValidation['valid']) {
+          $pictureName = testInputValue($_FILES["profilePicture"]["name"]);
+          $pictureType = $_FILES["profilePicture"]["type"];
+          $pictureTmpName = $_FILES["profilePicture"]["tmp_name"];
+          $pictureFile = file_get_contents($pictureTmpName);
+          $pictureContents = base64_encode($pictureFile);
+          
           $updatePictureSql = 
             "UPDATE User_Pictures SET pictureName = ?, pictureType = ?, 
             pictureContents = ? WHERE userId = ?";
@@ -45,28 +73,33 @@ if (isset($_POST["editProfileSubmit"])) {
           $stmt->bindValue(1, $pictureName);
           $stmt->bindValue(2, $pictureType);
           $stmt->bindValue(3, $pictureContents);
-          $stmt->bindValue(4, $_POST["userId"]);
+          $stmt->bindValue(4, $userId);
           $stmt->execute();
-          
-          $conn->commit();
-          header("Location: ../pages/Profile.php");
-          exit;
         } else {
-          setErrorMessage("画像サイズが1Mを超えました");
-          $conn->rollback();
+          $errors[] = $pictureValidation['message'];
         }
-      } else {
+      }
+      
+      if (empty($errors)) {
         $conn->commit();
+        setErrorMessage("プロフィールを更新しました");
         header("Location: ../pages/Profile.php");
         exit;
+      } else {
+        $conn->rollback();
+        setErrorMessage(implode("<br>", $errors));
       }
     } catch (PDOException $e) {
-      setErrorMessage("DB登録失敗: " . $e->getMessage());
-      $conn->rollback();
+      error_log("Update profile error: " . $e->getMessage());
+      if ($conn->inTransaction()) {
+        $conn->rollback();
+      }
+      setErrorMessage("プロフィールの更新に失敗しました");
     }
   } else {
-    setErrorMessage("名前、年齢、性別が必須項目です");
+    setErrorMessage(implode("<br>", $errors));
   }
+  
   header("Location: ../pages/EditProfile.php");
   exit;
 }

@@ -20,15 +20,15 @@
           <label for="loginId" class="form-label">ログインID</label>
           <input 
             type="text" class="form-control form-control-lg" 
-            name="loginId" placeholder="ログインIDを入力してくだい"
+            name="loginId" placeholder="ログインIDを入力してください"
           >
         </div>
         <!-- password -->
         <div class="col-md-6">
-          <label for="password" class="form-label">バスワード</label>
+          <label for="password" class="form-label">パスワード</label>
           <input 
             type="password" class="form-control form-control-lg" 
-            name="password" placeholder="バスワードを入力してくだい"
+            name="password" placeholder="パスワードを入力してください"
           >
         </div>
         <!-- username -->
@@ -36,7 +36,7 @@
           <label for="username" class="form-label">名前</label>
           <input 
             type="text" class="form-control form-control-lg" 
-            name="username" placeholder="名前を入力してくだい"
+            name="username" placeholder="名前を入力してください"
           >
         </div>
         <!-- age -->
