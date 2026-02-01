@@ -1,5 +1,5 @@
 name: PHP CI
-# cSpell:ignore shivammathur phpcs phpstan squizlabs roave
+# cSpell:ignore shivammathur phpcs phpstan squizlabs roave analyse php_codesniffer
 
 on:
   push:
@@ -61,15 +61,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
-
-      - name: Composerをインストール
-        uses: php-actions/composer@v6
-
-      - name: PHPStanを実行（オプション）
-        continue-on-error: true
-        run: |
-          composer require --dev phpstan/phpstan --no-interaction || true
-          vendor/bin/phpstan analyse src/ --level=1 || true
+          tools: composer
 
       - name: セキュリティ脆弱性スキャン
         continue-on-error: true
