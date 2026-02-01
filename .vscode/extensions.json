@@ -1,0 +1,18 @@
+{
+    "recommendations": [
+        // PHP開発に必須
+        "bmewburn.vscode-intelephense-client",
+        // PHPデバッグ
+        "xdebug.php-debug",
+        // コードフォーマッター
+        "junstyle.php-cs-fixer",
+        // その他の便利な拡張機能
+        "formulahendry.auto-rename-tag",
+        "ms-vscode.vscode-json",
+        // Git統合
+        "eamodio.gitlens",
+        // エディタ拡張
+        "streetsidesoftware.code-spell-checker",
+        "usernamehw.errorlens"
+    ]
+}
