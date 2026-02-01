@@ -22,7 +22,7 @@ try {
   $row = count($result);
   
   if ($row === 0) {
-    // Don't show error for empty list, just show empty state
+    // 空のリストの場合はエラーを表示せず、空の状態を表示
     $result = [];
   }
 } catch (PDOException $e) {

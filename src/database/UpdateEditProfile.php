@@ -5,7 +5,7 @@ include_once("../components/CheckInput.php");
 if (isset($_POST["editProfileSubmit"])) {
   $userId = requireLogin();
   
-  // Validate required fields
+  // 必須項目の検証
   $username = testInputValue($_POST["username"] ?? '');
   $age = testInputValue($_POST["age"] ?? '');
   $gender = testInputValue($_POST["gender"] ?? '');
@@ -28,7 +28,7 @@ if (isset($_POST["editProfileSubmit"])) {
     try {
       $conn->beginTransaction();
       
-      // Prepare update statement with explicit field order
+      // 明示的なフィールド順序で更新ステートメントを準備
       $updateProfileSql = 
         "UPDATE Users SET username = ?, age = ?, gender = ?,
         height = ?, weight = ?, bloodType = ?, location = ?, interests = ?,
@@ -36,7 +36,7 @@ if (isset($_POST["editProfileSubmit"])) {
         smokingHabits = ?, drinkingHabits = ? WHERE userId = ?";
       $stmt = $conn->prepare($updateProfileSql);
       
-      // Bind values in correct order
+      // 正しい順序で値をバインド
       $stmt->bindValue(1, $username);
       $stmt->bindValue(2, (int)$age);
       $stmt->bindValue(3, $gender);
@@ -54,7 +54,7 @@ if (isset($_POST["editProfileSubmit"])) {
       
       $stmt->execute();
       
-      // Handle profile picture update if uploaded
+      // プロフィール写真がアップロードされた場合の更新処理
       if (isset($_FILES["profilePicture"]) && $_FILES["profilePicture"]["error"] === UPLOAD_ERR_OK) {
         $pictureValidation = validateImageFile($_FILES["profilePicture"]);
         

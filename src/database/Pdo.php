@@ -1,10 +1,10 @@
 <?php
 /**
- * Database Connection Handler
- * Uses configuration from root config.php file
+ * データベース接続ハンドラ
+ * ルートディレクトリのconfig.phpファイルから設定を読み込む
  */
 
-// Load configuration
+// 設定ファイルの読み込み
 require_once(__DIR__ . '/../../config.php');
 
 try {
@@ -18,7 +18,7 @@ try {
   
   $conn = new PDO($dsn, DB_USER, DB_PASS, $options);
   
-  // Only display connection message if accessed directly (for testing)
+  // 直接アクセスされた場合のみ接続メッセージを表示（テスト用）
   if (basename($_SERVER['SCRIPT_NAME']) === "Pdo.php" && DEBUG_MODE) {
     echo "Connected successfully";
   }

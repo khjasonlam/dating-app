@@ -7,27 +7,27 @@ $loginUserId = requireLogin();
 try {
   $conn->beginTransaction();
   
-  // Delete all messages sent or received by this user
+  // このユーザーが送受信したすべてのメッセージを削除
   $deleteMessage = "DELETE FROM Messages WHERE senderId = ? OR receiverId = ?";  
   $stmt = $conn->prepare($deleteMessage);
   $stmt->bindValue(1, $loginUserId);
   $stmt->bindValue(2, $loginUserId);
   $stmt->execute();
   
-  // Delete all interactions (likes/dislikes) involving this user
+  // このユーザーに関連するすべてのインタラクション（いいね/いいえ）を削除
   $deleteInteractions = "DELETE FROM User_Interactions WHERE userId = ? OR targetUserId = ?";
   $stmt = $conn->prepare($deleteInteractions);
   $stmt->bindValue(1, $loginUserId);
   $stmt->bindValue(2, $loginUserId);
   $stmt->execute();
   
-  // Delete profile pictures
+  // プロフィール写真を削除
   $deletePictures = "DELETE FROM User_Pictures WHERE userId = ?";
   $stmt = $conn->prepare($deletePictures);
   $stmt->bindValue(1, $loginUserId);
   $stmt->execute();
   
-  // Finally, delete the user account
+  // 最後にユーザーアカウントを削除
   $deleteUser = "DELETE FROM Users WHERE userId = ?";
   $stmt = $conn->prepare($deleteUser);
   $stmt->bindValue(1, $loginUserId);

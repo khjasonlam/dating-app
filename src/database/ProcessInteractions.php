@@ -9,7 +9,7 @@ $likeSubmit = $_POST["likeSubmit"] ?? null;
 $dislikeSubmit = $_POST["dislikeSubmit"] ?? null;
 $likePage = $_POST["likePage"] ?? 'interactions';
 
-// Validate target user ID
+// 対象ユーザーIDの検証
 if ($targetUserId <= 0 || $targetUserId === $loginUserId) {
   setErrorMessage("無効なユーザーです");
   header("Location: ../pages/Interactions.php");
@@ -18,7 +18,7 @@ if ($targetUserId <= 0 || $targetUserId === $loginUserId) {
 
 try {
   if (isset($likeSubmit) && $likeSubmit === 'like') {
-    // Check if already liked
+    // 既にいいね済みか確認
     $checkExistingSql = 
       "SELECT interactionId FROM User_Interactions 
       WHERE userId = ? AND targetUserId = ? AND interactionType = 'like'";
@@ -38,7 +38,7 @@ try {
       $result = $stmt->execute();
       
       if ($result) {
-        // Check if the other user also liked back (match)
+        // 相手もいいねを返しているか確認（マッチング）
         $checkMatchSql = 
           "SELECT userId FROM User_Interactions 
           WHERE userId = ? AND targetUserId = ? AND interactionType = 'like'";
@@ -55,7 +55,7 @@ try {
       }
     }
   } elseif (isset($dislikeSubmit) && $dislikeSubmit === 'dislike') {
-    // Check if already disliked
+    // 既にいいえ済みか確認
     $checkExistingSql = 
       "SELECT interactionId FROM User_Interactions 
       WHERE userId = ? AND targetUserId = ? AND interactionType = 'dislike'";
@@ -80,7 +80,7 @@ try {
   setErrorMessage("処理に失敗しました");
 }
 
-// Redirect based on page
+// ページに応じてリダイレクト
 if ($likePage === "profile") {
   header("Location: ../pages/Profile.php?targetUserId=" . $targetUserId);
 } else {

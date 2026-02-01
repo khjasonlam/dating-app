@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["messageUserId"])) {
     setErrorMessage("無効なユーザーIDです");
   } else {
     try {
-      // Fix SQL query: use parentheses for OR condition
+      // SQLクエリの修正: OR条件に括弧を使用
       $SelectMessageSql = 
         "SELECT m.senderId, m.messageContent, m.createdAt,
         up.pictureContents, up.pictureType 

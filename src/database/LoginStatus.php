@@ -1,8 +1,8 @@
 <?php
 /**
- * Login Status Check
- * Verifies that user is logged in and session is valid
- * Also verifies that the user exists in the database
+ * ログイン状態チェック
+ * ユーザーがログインしているか、セッションが有効かを確認
+ * データベースにユーザーが存在するかも確認
  */
 include_once("Pdo.php");
 include_once("../components/CheckInput.php");

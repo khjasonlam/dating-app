@@ -7,7 +7,7 @@ if (isset($_POST["sendMessage"])) {
   $messageUserId = isset($_POST["messageUserId"]) ? (int)$_POST["messageUserId"] : 0;
   $loginUserId = requireLogin();
   
-  // Validate message
+  // メッセージの検証
   if (empty($message)) {
     setErrorMessage("メッセージを入力してください");
   } elseif (strlen($message) > 1000) {
@@ -16,7 +16,7 @@ if (isset($_POST["sendMessage"])) {
     setErrorMessage("無効な受信者です");
   } else {
     try {
-      // Verify that the receiver exists
+      // 受信者が存在するか確認
       $checkUserSql = "SELECT userId FROM Users WHERE userId = ?";
       $checkStmt = $conn->prepare($checkUserSql);
       $checkStmt->bindValue(1, $messageUserId);
@@ -35,7 +35,7 @@ if (isset($_POST["sendMessage"])) {
         $stmt->bindValue(3, $message);
         $stmt->execute();
         
-        // Success - no error message needed
+        // 成功 - エラーメッセージは不要
       }
     } catch (PDOException $e) {
       error_log("Message send error: " . $e->getMessage());

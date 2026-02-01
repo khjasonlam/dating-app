@@ -3,7 +3,7 @@ include_once("Pdo.php");
 include_once("../components/CheckInput.php");
 
 if (isset($_POST["registerSubmit"])) {
-  // Validate all required fields
+  // 必須項目の検証
   $loginId = testInputValue($_POST["loginId"] ?? '');
   $password = $_POST["password"] ?? '';
   $username = testInputValue($_POST["username"] ?? '');
@@ -12,7 +12,7 @@ if (isset($_POST["registerSubmit"])) {
   
   $errors = [];
   
-  // Validate login ID
+  // ログインIDの検証
   if (empty($loginId)) {
     $errors[] = "ログインIDは必須です";
   } elseif (strlen($loginId) < 3) {
@@ -21,7 +21,7 @@ if (isset($_POST["registerSubmit"])) {
     $errors[] = "ログインIDは英数字とアンダースコアのみ使用できます";
   }
   
-  // Validate password
+  // パスワードの検証
   if (empty($password)) {
     $errors[] = "パスワードは必須です";
   } else {
@@ -31,24 +31,24 @@ if (isset($_POST["registerSubmit"])) {
     }
   }
   
-  // Validate username
+  // ユーザー名の検証
   if (empty($username)) {
     $errors[] = "名前は必須です";
   }
   
-  // Validate age
+  // 年齢の検証
   if (empty($age) || $age === "年齢を選択してください") {
     $errors[] = "年齢を選択してください";
   } elseif (!is_numeric($age) || $age < 18 || $age > 100) {
     $errors[] = "有効な年齢を選択してください";
   }
   
-  // Validate gender
+  // 性別の検証
   if (empty($gender) || !in_array($gender, ['男', '女'])) {
     $errors[] = "性別を選択してください";
   }
   
-  // Validate profile picture
+  // プロフィール写真の検証
   $pictureValid = false;
   if (isset($_FILES["profilePicture"]) && $_FILES["profilePicture"]["error"] === UPLOAD_ERR_OK) {
     $pictureValidation = validateImageFile($_FILES["profilePicture"]);
@@ -61,10 +61,10 @@ if (isset($_POST["registerSubmit"])) {
     $errors[] = "プロフィール写真をアップロードしてください";
   }
   
-  // If all validations pass, proceed with registration
+  // すべての検証が成功した場合、登録処理を実行
   if (empty($errors) && $pictureValid) {
     try {
-      // Check if login ID already exists
+      // ログインIDが既に存在するか確認
       $checkUserSql = "SELECT loginId FROM Users WHERE loginId = ?";
       $stmt = $conn->prepare($checkUserSql);
       $stmt->bindValue(1, $loginId);
@@ -75,10 +75,10 @@ if (isset($_POST["registerSubmit"])) {
       if (empty($result)) {
         $conn->beginTransaction();
         
-        // Hash password before storing
+        // 保存前にパスワードをハッシュ化
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         
-        // Insert user
+        // ユーザー情報を挿入
         $registerSql = 
           "INSERT INTO Users (loginId, password, username, gender, age) 
           VALUES (?, ?, ?, ?, ?)";
@@ -93,7 +93,7 @@ if (isset($_POST["registerSubmit"])) {
         
         $lastInsertId = $conn->lastInsertId();
         
-        // Process and store profile picture
+        // プロフィール写真を処理して保存
         $pictureName = testInputValue($_FILES["profilePicture"]["name"]);
         $pictureType = $_FILES["profilePicture"]["type"];
         $pictureTmpName = $_FILES["profilePicture"]["tmp_name"];
@@ -126,7 +126,7 @@ if (isset($_POST["registerSubmit"])) {
       setErrorMessage("登録処理中にエラーが発生しました");
     }
   } else {
-    // Combine all errors
+    // すべてのエラーを結合
     setErrorMessage(implode("<br>", $errors));
   }
   

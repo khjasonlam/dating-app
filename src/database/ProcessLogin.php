@@ -8,7 +8,7 @@ if (isset($_POST["loginSubmit"])) {
   
   if (!empty($loginId) && !empty($password)) {
     try {
-      // Get user with password hash
+      // パスワードハッシュを含むユーザー情報を取得
       $loginSql = "SELECT userId, password FROM Users WHERE loginId = ?";
       $stmt = $conn->prepare($loginSql);
       $stmt->bindValue(1, $loginId);
@@ -16,17 +16,17 @@ if (isset($_POST["loginSubmit"])) {
       $loginUser = $stmt->fetch(PDO::FETCH_ASSOC);
       
       if (!empty($loginUser)) {
-        // Verify password (supports both hashed and plain text for migration)
+        // パスワードの検証（移行のためハッシュ化とプレーンテキストの両方をサポート）
         $passwordValid = false;
         
-        // Check if password is hashed (starts with $2y$ for bcrypt)
+        // パスワードがハッシュ化されているか確認（bcryptの場合は$2y$で始まる）
         if (password_verify($password, $loginUser["password"])) {
           $passwordValid = true;
         } 
-        // Legacy support: check plain text (for existing users)
+        // レガシーサポート: プレーンテキストの確認（既存ユーザー用）
         elseif ($loginUser["password"] === $password) {
           $passwordValid = true;
-          // Upgrade to hashed password
+          // ハッシュ化パスワードにアップグレード
           $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
           $updateSql = "UPDATE Users SET password = ? WHERE userId = ?";
           $updateStmt = $conn->prepare($updateSql);
@@ -43,7 +43,7 @@ if (isset($_POST["loginSubmit"])) {
           setErrorMessage("ログインID又はパスワードが間違いました");
         }
       } else {
-        // Don't reveal if user exists or not (security best practice)
+        // セキュリティのベストプラクティス: ユーザーが存在するかどうかを明かさない
         setErrorMessage("ログインID又はパスワードが間違いました");
       }
     } catch (PDOException $e) {

@@ -2,7 +2,7 @@
 include_once("Pdo.php");
 include_once("../components/CheckInput.php");
 
-// Validate and get display user ID
+// 表示するユーザーIDの検証と取得
 if (isset($_GET["targetUserId"])) {
   $targetUserId = (int)$_GET["targetUserId"];
   $currentUserId = getUserIdSession();
@@ -92,7 +92,7 @@ $profileArray = [
   "飲酒" => $drinkingHabits
 ];
 
-// Check if current user has liked this profile and if there's a match
+// 現在のユーザーがこのプロフィールにいいねしているか、マッチングしているかを確認
 if (isset($_GET["targetUserId"]) && (int)$_GET["targetUserId"] === $displayUserId) {
   $currentUserId = getUserIdSession();
   if ($currentUserId) {
@@ -108,7 +108,7 @@ if (isset($_GET["targetUserId"]) && (int)$_GET["targetUserId"] === $displayUserI
       $liked = $stmt->fetch(PDO::FETCH_ASSOC);
       
       if ($liked) {
-        // Check if the other user also liked back (match)
+        // 相手もいいねを返しているか確認（マッチング）
         $stmt = $conn->prepare($checkLikedSql);
         $stmt->bindValue(1, $displayUserId);
         $stmt->bindValue(2, $currentUserId);
@@ -118,7 +118,7 @@ if (isset($_GET["targetUserId"]) && (int)$_GET["targetUserId"] === $displayUserI
       }
     } catch (PDOException $e) {
       error_log("Check liked error: " . $e->getMessage());
-      // Don't show error to user, just continue
+      // ユーザーにエラーを表示せず、処理を続行
     }
   }
 }
