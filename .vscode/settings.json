@@ -1,0 +1,58 @@
+{
+    // PHP設定
+    "php.validate.executablePath": "/usr/bin/php",
+    "php.suggest.basic": false,
+    // Intelephense設定（推奨拡張機能）
+    "intelephense.files.maxSize": 5000000,
+    "intelephense.files.exclude": [
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/vendor/**/{Tests,tests}/**",
+        "**/.git/**"
+    ],
+    // フォーマッター設定
+    "[php]": {
+        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false
+    },
+    // エディタ設定
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    // ファイル関連付け
+    "files.associations": {
+        "*.php": "php"
+    },
+    // 検索除外設定
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/vendor": true,
+        "**/uploads": true,
+        "**/.git": true
+    },
+    // ファイル除外設定
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true
+    },
+    // エラー表示
+    "problems.showCurrentInStatus": true,
+    // 自動保存
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    // コード補完
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": true
+    },
+    // ブラケットペアの色付け
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": true
+}
