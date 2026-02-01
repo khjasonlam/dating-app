@@ -11,6 +11,14 @@
   <body class="bg-info-subtle">
     <?php
     include_once("../components/CheckInput.php");
+    
+    // 既にログインしている場合はプロフィールページにリダイレクト
+    $userId = getUserIdSession();
+    if ($userId) {
+      header("Location: Profile.php");
+      exit;
+    }
+    
     include_once("../components/CommonTools.php");
     ?>
     <div class="container p-4 bg-info-subtle">

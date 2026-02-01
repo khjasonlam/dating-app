@@ -1,20 +1,20 @@
 <?php 
 /**
- * Input validation and session management functions
+ * 入力検証とセッション管理関数
  */
 
-// Start session if not already started
+// セッションが開始されていない場合は開始
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Load configuration
-require_once(__DIR__ . '/../../config.php');
+// 設定ファイルの読み込み
+require_once(__DIR__ . '/../config.php');
 
 /**
- * Sanitize input value
- * @param string $data Input data
- * @return string Sanitized data
+ * 入力値をサニタイズ
+ * @param string $data 入力データ
+ * @return string サニタイズされたデータ
  */
 function testInputValue($data) {
   if (!isset($data)) {
@@ -26,9 +26,9 @@ function testInputValue($data) {
 }
 
 /**
- * Check and sanitize value, return default if empty
- * @param string $data Input data
- * @return string Sanitized data or default message
+ * 値をチェックしてサニタイズし、空の場合はデフォルト値を返す
+ * @param string $data 入力データ
+ * @return string サニタイズされたデータまたはデフォルトメッセージ
  */
 function checkValue($data) {
   if (empty($data)) {
@@ -38,8 +38,8 @@ function checkValue($data) {
 }
 
 /**
- * Validate password strength
- * @param string $password Password to validate
+ * パスワードの強度を検証
+ * @param string $password 検証するパスワード
  * @return array ['valid' => bool, 'message' => string]
  */
 function validatePassword($password) {
@@ -61,8 +61,8 @@ function validatePassword($password) {
 }
 
 /**
- * Validate uploaded image file
- * @param array $file $_FILES array element
+ * アップロードされた画像ファイルを検証
+ * @param array $file $_FILES配列の要素
  * @return array ['valid' => bool, 'message' => string]
  */
 function validateImageFile($file) {
@@ -95,26 +95,34 @@ function validateImageFile($file) {
 }
 
 /**
- * Set error message in session
- * @param string $message Error message
+ * セッションにエラーメッセージを設定
+ * @param string $message エラーメッセージ
  */
 function setErrorMessage($message) {
   $_SESSION["error_message"] = $message;
 }
 
 /**
- * Display and clear error message from session
+ * セッションからエラーメッセージを表示してクリア
  */
 function displayErrorMessage() {
   if (isset($_SESSION["error_message"])) {
-    echo htmlspecialchars($_SESSION["error_message"], ENT_QUOTES, "UTF-8");
+    $message = $_SESSION["error_message"];
+    // <br>タグを許可してHTMLとして解釈させる（XSS対策のため、他のHTMLタグはエスケープ）
+    // まず、<br>タグを一時的なプレースホルダーに置き換え
+    $message = str_replace(['<br>', '<br/>', '<br />'], '___BR_TAG___', $message);
+    // すべてのHTMLをエスケープ
+    $message = htmlspecialchars($message, ENT_QUOTES, "UTF-8");
+    // プレースホルダーを<br>タグに戻す
+    $message = str_replace('___BR_TAG___', '<br>', $message);
+    echo $message;
     unset($_SESSION["error_message"]);
   }
 }
 
 /**
- * Set user ID in session
- * @param int $userId User ID
+ * セッションにユーザーIDを設定
+ * @param int $userId ユーザーID
  */
 function setUserIdSession($userId) {
   $_SESSION["userId"] = (int)$userId;
@@ -122,11 +130,11 @@ function setUserIdSession($userId) {
 }
 
 /**
- * Get user ID from session
- * @return int|null User ID or null if not set
+ * セッションからユーザーIDを取得
+ * @return int|null ユーザーID、設定されていない場合はnull
  */
 function getUserIdSession() {
-  // Check session timeout
+  // セッションタイムアウトをチェック
   if (isset($_SESSION["last_activity"]) && 
       (time() - $_SESSION["last_activity"] > SESSION_LIFETIME)) {
     unsetAllSession();
@@ -141,15 +149,15 @@ function getUserIdSession() {
 }
 
 /**
- * Set matched user session flag
+ * マッチしたユーザーのセッションフラグを設定
  */
 function setMatchedUserSession() {
   $_SESSION["matched"] = true; 
 }
 
 /**
- * Get and clear matched user session flag
- * @return bool True if matched flag was set
+ * マッチしたユーザーのセッションフラグを取得してクリア
+ * @return bool マッチフラグが設定されていた場合はtrue
  */
 function getMatchedUserSession() {
   if (isset($_SESSION["matched"])) {
@@ -161,9 +169,9 @@ function getMatchedUserSession() {
 }
 
 /**
- * Require user to be logged in
- * Redirects to login page if not logged in
- * @return int User ID if logged in (never returns if not logged in)
+ * ユーザーのログインを必須とする
+ * ログインしていない場合はログインページにリダイレクト
+ * @return int ログインしている場合のユーザーID（ログインしていない場合は戻らない）
  */
 function requireLogin() {
   $userId = getUserIdSession();
@@ -178,7 +186,7 @@ function requireLogin() {
 }
 
 /**
- * Clear all session data and redirect to login
+ * すべてのセッションデータをクリアしてログインページにリダイレクト
  */
 function unsetAllSession() {
   session_unset();
