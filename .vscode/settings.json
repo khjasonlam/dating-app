@@ -19,7 +19,7 @@
         "editor.detectIndentation": false
     },
     // エディタ設定
-    "editor.tabSize": 4,
+    "editor.tabSize": 2,
     "editor.insertSpaces": true,
     "editor.detectIndentation": false,
     "files.eol": "\n",

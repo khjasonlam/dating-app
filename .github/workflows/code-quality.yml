@@ -1,0 +1,56 @@
+name: コード品質チェック
+# cSpell:ignore shivammathur
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  code-quality:
+    name: コード品質分析
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: PHPをセットアップ
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+
+      - name: ファイル構造チェック
+        run: |
+          echo "PHPファイルの検出..."
+          find . -name "*.php" -not -path "./vendor/*" -not -path "./.git/*" | wc -l
+
+          echo "設定ファイルの存在確認..."
+          test -f src/config.php && echo "✓ config.php が見つかりました" || echo "✗ config.php が見つかりません"
+          test -f src/database/schema.sql && echo "✓ schema.sql が見つかりました" || echo "✗ schema.sql が見つかりません"
+
+      - name: セキュリティパターンチェック
+        run: |
+          echo "セキュリティチェック..."
+          # SQLインジェクション対策の確認（プリペアドステートメントの使用）
+          if grep -r "prepare\|bindParam\|bindValue" src/database/*.php > /dev/null; then
+            echo "✓ プリペアドステートメントが使用されています"
+          else
+            echo "⚠ プリペアドステートメントの使用を確認してください"
+          fi
+
+          # パスワードハッシュ化の確認
+          if grep -r "password_hash\|password_verify" src/database/*.php > /dev/null; then
+            echo "✓ パスワードハッシュ化が使用されています"
+          else
+            echo "⚠ パスワードハッシュ化の使用を確認してください"
+          fi
+
+      - name: 環境変数ファイルのテンプレート確認
+        run: |
+          if [ -f .env.sample ] || [ -f .env.example ]; then
+            echo "✓ .envサンプルファイルが見つかりました"
+          else
+            echo "⚠ .env.sample または .env.example の作成を推奨します"
+          fi

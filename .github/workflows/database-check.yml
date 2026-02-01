@@ -1,0 +1,41 @@
+name: データベーススキーマチェック
+# cSpell:ignore mysqladmin
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'src/database/schema.sql'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'src/database/schema.sql'
+
+jobs:
+  schema-validation:
+    name: SQLスキーマ検証
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: test_password
+          MYSQL_DATABASE: test_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: MySQLに接続してスキーマを検証
+        run: |
+          mysql -h 127.0.0.1 -u root -ptest_password test_db < src/database/schema.sql
+          mysql -h 127.0.0.1 -u root -ptest_password test_db -e "SHOW TABLES;"
+        continue-on-error: true

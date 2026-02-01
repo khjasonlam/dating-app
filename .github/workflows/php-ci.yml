@@ -1,0 +1,78 @@
+name: PHP CI
+# cSpell:ignore shivammathur phpcs phpstan squizlabs roave
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  syntax-check:
+    name: PHP構文チェック
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: PHPをセットアップ
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+
+      - name: PHP構文チェック
+        run: |
+          find . -name "*.php" -not -path "./vendor/*" -not -path "./.git/*" -exec php -l {} \;
+
+  lint:
+    name: PHP Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: PHPをセットアップ
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: PHP_CodeSnifferをインストール
+        run: |
+          composer global require squizlabs/php_codesniffer --no-interaction
+          echo "$HOME/.composer/vendor/bin" >> $GITHUB_PATH
+
+      - name: コードスタイルチェック（オプション）
+        continue-on-error: true
+        run: |
+          phpcs --standard=PSR12 --extensions=php --ignore=vendor/,uploads/ src/ || true
+
+  security-scan:
+    name: セキュリティスキャン
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: PHPをセットアップ
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Composerをインストール
+        uses: php-actions/composer@v6
+
+      - name: PHPStanを実行（オプション）
+        continue-on-error: true
+        run: |
+          composer require --dev phpstan/phpstan --no-interaction || true
+          vendor/bin/phpstan analyse src/ --level=1 || true
+
+      - name: セキュリティ脆弱性スキャン
+        continue-on-error: true
+        run: |
+          composer require --dev roave/security-advisories:dev-latest --no-interaction || true
+          composer audit || true
